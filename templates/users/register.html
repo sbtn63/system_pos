@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+<div class="flex min-h-screen bg-white">
+
+    <div class="w-1/2 bg-cover md:block hidden" style="background-image:  url(https://images.unsplash.com/photo-1520243947988-b7b79f7873e9?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NDd8fGJsYWNrJTIwZm9yZXN0fGVufDB8fDB8eWVsbG93&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60)"></div>
+    <!-- <div class="bg-no-repeat bg-right bg-cover max-w-max max-h-8 h-12 overflow-hidden">
+        <img src="log_in.webp" alt="hey">
+    </div> -->
+
+
+    <div class="md:w-1/2 max-w-lg mx-auto my-24 px-4 py-5 shadow-none">
+
+        <div class="text-left p-0 font-sans">
+            
+            <h1 class=" text-gray-800 text-3xl font-medium">Create una cuenta gratis</h1>
+            <h3 class="p-1 text-gray-700">Siempre gratis. No necesitas pagar.</h3>
+        </div>
+        <form method="post" class="p-0">
+            {% csrf_token %}
+            <div class="mt-5">
+                <!-- <label for="email" class="sc-bqyKva ePvcBv">Email</label> -->
+                {{ form.email|add_class:"block w-full p-2 border rounded border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent "|append_attr:"placeholder:Email o Username" }}
+            </div>
+            <div class="mt-5">
+                {{ form.password1|add_class:"block w-full p-2 border rounded border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent "|append_attr:"placeholder:Contraseña" }}
+            </div>
+            <div class="mt-5">
+                {{ form.password2|add_class:"block w-full p-2 border rounded border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent "|append_attr:"placeholder:Confirmar Contraseña" }}
+            </div>
+
+            <div class="mt-10">
+                <input type="submit" value="Registrarse" class="py-3 bg-green-500 text-white w-full rounded hover:bg-green-600">
+            </div>
+        </form>
+        <a class="" href="{% url 'users:login' %}" data-test="Link"><span class="block  p-5 text-center text-gray-800  text-xs hover:underline ">Ya tienes cuenta?</span></a>
+    </div>
+
+
+</div>
+
+{% endblock content %}

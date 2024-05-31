@@ -1,0 +1,52 @@
+{% extends 'components/dashboard.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content_dashboard %}
+
+
+<div class="bg-white p-8 rounded-lg">
+
+  <h2 class="text-center my-6 text-[2.5rem] font-bold leading-[4rem] tracking-tight text-black"> Editar Informacion Compañia</h2>
+  <p class="text-lg text-center font-medium leading-8 text-indigo-600/95">Este espacio principalmene dedicado a que puedas editar el logo y nombe que aparece en tus menus</p>
+
+<form class="max-w-md mx-auto mt-6" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="relative z-0 w-full mb-5 group">
+      {{ form.name_company|add_class:"block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 pee"|append_attr:"placeholder:Nombre Compañia"}}
+  </div>
+    <div class="flex items-center space-x-6">
+        <div class="shrink-0">
+          <img id='preview_img' class="h-14 w-14 object-cover rounded-lg" src="{% if dashboard.logo_company %} {{ dashboard.logo_company.url }} {% else %} {% static 'images/image.png' %} {% endif %}" alt="Current profile photo" />
+        </div>
+        <label class="block">
+          <span class="sr-only">Choose profile photo</span>
+          {{ form.logo_company|add_class:"block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"|append_attr:"onchange:loadFile(event)"}}
+        </label>
+    </div>
+    <button type="submit" class="mt-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Agregar Cambios</button>
+</form>
+
+</div>
+
+  
+  
+  <script>
+          var loadFile = function(event) {
+              
+              var input = event.target;
+              var file = input.files[0];
+              var type = file.type;
+  
+             var output = document.getElementById('preview_img');
+  
+  
+              output.src = URL.createObjectURL(event.target.files[0]);
+              output.onload = function() {
+                  URL.revokeObjectURL(output.src) // free memory
+              }
+          };
+  </script>
+
+
+{% endblock content_dashboard %}

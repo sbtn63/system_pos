@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="flex flex-col h-screen bg-gray-100">
+
+    <!-- Barra de navegación superior -->
+    <div class="bg-white text-white shadow w-full p-2 flex items-center justify-between">
+        <div class="flex items-center">
+            <div class="flex items-center"> <!-- Mostrado en todos los dispositivos -->
+                <img src="{% if dashboard.logo_company %} {{ dashboard.logo_company.url }} {% else %} {% static 'images/image.png' %} {% endif %}" alt="Logo" class="w-10 h-10 mr-2 rounded-lg">
+                <h2 class="text-gray-500 font-bold text-xl">{% if dashboard.name_company %} {{ dashboard.name_company }} {% else %} {{ request.user.email }} {% endif %}</h2>
+            </div>
+            <div class="md:hidden flex items-center"> <!-- Se muestra solo en dispositivos pequeños -->
+                <button id="menuBtn">
+                    <i class="fas fa-bars text-gray-500 text-lg"></i> <!-- Ícono de menú -->
+                </button>
+            </div>
+        </div>
+
+        <!-- Ícono de Notificación y Perfil -->
+        <div class="space-x-5">
+            <button>
+                <i class="fas fa-bell text-gray-500 text-lg"></i>
+            </button>
+            <!-- Botón de Perfil -->
+            <button id="optionsBtn">
+                <i class="fas fa-user text-gray-500 text-lg"></i>
+            </button>
+            <div id="optionsNav" class="hidden origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 px-2 py-2">
+                <a href="{% url 'users:edit_user' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md">Mi Informacion</a>
+                <a href="{% url 'users:dashboard' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md">Compania</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="flex-1 flex flex-wrap">
+        <!-- Barra lateral de navegación (oculta en dispositivos pequeños) -->
+        <div class="p-2 bg-white w-full md:w-60 flex-col md:flex hidden" id="sideNav">
+            <nav>
+                <a href="{% url 'home' %}" class="block text-gray-500 py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-cyan-500 hover:text-white" href="#">
+                    <i class="fas fa-home mr-2"></i>Inicio
+                </a>
+                <a href="{% url 'products:list_products' %}" class="block text-gray-500 py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-cyan-500 hover:text-white" href="#">
+                    <i class="fas fa-file-alt mr-2"></i>Productos
+                </a>
+                <a href="{% url 'users:list_users' %}" class="block text-gray-500 py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-cyan-500 hover:text-white" href="#">
+                    <i class="fas fa-users mr-2"></i>Empleados
+                </a>
+                <a href="#" class="block text-gray-500 py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-cyan-500 hover:text-white" href="#">
+                    <i class="fas fa-users mr-2"></i>Provedores
+                </a>
+                <a href="{% url 'sales:sale_list' %}" class="block text-gray-500 py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-cyan-500 hover:text-white" href="#">
+                    <i class="fas fa-store mr-2"></i>Ventas
+                </a>
+                <a class="block text-gray-500 py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-cyan-500 hover:text-white" href="{% url 'categories:list_categories' %}">
+                    <i class="fas fa-exchange-alt mr-2"></i>Categorias
+                </a>
+        
+                <a class="block text-gray-500 py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-cyan-500 hover:text-white" href="{% url 'users:logout' %}">
+                    <i class="fas fa-sign-out-alt mr-2"></i>Cerrar sesión
+                </a>
+            </nav>
+        
+        </div>
+
+        <!-- Área de contenido principal -->
+        <div class="flex-1 p-4 w-full md:w-1/2">
+            <!-- Campo de búsqueda -->
+
+            {% block content_dashboard %}{% endblock content_dashboard %}
+
+            <!-- Tercer contenedor debajo de los dos anteriores -->
+            <!-- Sección 3 - Tabla de Autorizaciones Pendientes -->
+            
+
+            <!-- Cuarto contenedor -->
+            <!-- Sección 4 - Tabla de Transacciones -->
+            {% comment %} <div class="mt-8 bg-white p-4 shadow rounded-lg">
+                <div class="bg-white p-4 rounded-md mt-4">
+                    <h2 class="text-gray-500 text-lg font-semibold pb-4">Transacciones</h2>
+                    <div class="my-1"></div> <!-- Espacio de separación -->
+                    <div class="bg-gradient-to-r from-cyan-300 to-cyan-500 h-px mb-6"></div> <!-- Línea con gradiente -->
+                    <table class="w-full table-auto text-sm">
+                        <thead>
+                            <tr class="text-sm leading-normal">
+                                <th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Nombre</th>
+                                <th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Fecha</th>
+                                <th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light text-right">Monto</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="hover:bg-grey-lighter">
+                                <td class="py-2 px-4 border-b border-grey-light">Carlos Sánchez</td>
+                                <td class="py-2 px-4 border-b border-grey-light">27/07/2023</td>
+                                <td class="py-2 px-4 border-b border-grey-light text-right">$1500</td>
+                            </tr>
+                        <tr class="hover:bg-grey-lighter">
+                            <td class="py-2 px-4 border-b border-grey-light">Pedro Hernández</td>
+                            <td class="py-2 px-4 border-b border-grey-light">02/08/2023</td>
+                            <td class="py-2 px-4 border-b border-grey-light text-right">$1950</td>
+                        </tr>
+                        <tr class="hover:bg-grey-lighter">
+                            <td class="py-2 px-4 border-b border-grey-light">Sara Ramírez</td>
+                            <td class="py-2 px-4 border-b border-grey-light">03/08/2023</td>
+                            <td class="py-2 px-4 border-b border-grey-light text-right">$1850</td>
+                        </tr>
+                        <tr class="hover:bg-grey-lighter">
+                            <td class="py-2 px-4 border-b border-grey-light">Daniel Torres</td>
+                            <td class="py-2 px-4 border-b border-grey-light">04/08/2023</td>
+                            <td class="py-2 px-4 border-b border-grey-light text-right">$2300</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!-- Botón "Ver más" para la tabla de Transacciones -->
+                    <div class="text-right mt-4">
+                        <button class
+                                                <div class="text-right mt-4">
+                            <button class="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2 px-4 rounded">
+                                Ver más
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div> {% endcomment %}
+            
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

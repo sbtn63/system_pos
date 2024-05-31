@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% include 'components/navbar.html' %}
+
+
+<div class="mx-auto mt-10 w-full max-w-5xl">
+    <div class="relative max-w-md w-full">
+        <form>
+        <div class="absolute top-1 left-2 inline-flex items-center p-2">
+            <i class="fas fa-search text-gray-400"></i>
+        </div>
+        <input name="search" class="w-full h-10 pl-10 pr-4 py-1 text-base placeholder-gray-500 border rounded-full focus:shadow-outline" type="search" placeholder="Buscar...">
+        </form>
+    </div>
+</div>
+
+
+<section class="h-1/2 mt-8  px-4 text-gray-600" x-data="app">
+    
+    <div class="flex h-full flex-col justify-center">
+        <!-- Table -->
+        <div class="mx-auto w-full max-w-5xl rounded-sm border border-gray-200 bg-white shadow-lg">
+            <header class="flex mx-auto justify-between border-b border-gray-100 px-5 py-4">
+                <div class="font-semibold text-gray-800">Lista de Ventas</div>
+                <a href="{% url 'sales:sale_create' %}" class="bg-blue-500 rounded-lg px-1 py-0.5 text-sm text-white hover:bg-blue-600">Agregar</a>
+            </header>
+
+            <div class="overflow-x-auto p-3">
+                {% if sales %}
+                <table class="w-full table-auto">
+                    <thead class="bg-gray-50 text-xs font-semibold uppercase text-gray-400">
+                        <tr>
+                            <th class="p-2">
+                                <div class=" font-semibold">Producto Vendido</div>
+                            </th>
+                            <th class="p-2">
+                                <div class=" font-semibold">Fecha Venta</div>
+                            </th>
+                            <th class="p-2">
+                                <div class=" font-semibold">Precio Unidad</div>
+                            </th>
+                            <th class="p-2">
+                                <div class=" font-semibold">Cantidad Vendida</div>
+                            </th>
+                            <th class="p-2">
+                                <div class=" font-semibold">Total Vendida</div>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="divide-y divide-gray-100 text-sm">
+                        <!-- record 1 -->
+                        {% for sale in sales %}
+                        <tr class="text-center">
+                            <td class="p-2">
+                                    <div class="font-medium text-gray-800">{{ sale.product.name }}</div>
+                            </td>
+                            <td class="p-2">
+                                <div class="font-medium text-gray-800">{{ sale.date_joined }}</div>
+                            </td>
+                            <td class="p-2">
+                                <div class="font-medium text-gray-800">{{ sale.price_sale }}</div>
+                            </td>
+                            <td class="p-2">
+                                <div class="font-medium text-gray-800">{{ sale.amount_sale }}</div>
+                            </td>
+                            <td class="p-2">
+                                <div class="font-medium text-gray-800">{{ sale.total_sale }}</div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div class="font-medium text-gray-800">No tienes registros asociados</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
