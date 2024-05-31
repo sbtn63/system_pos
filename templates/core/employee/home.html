@@ -20,11 +20,11 @@
               Si te encuentras en este punto es debido a que te diren accesso para poder gestionar los inventaros de una compania
           </p>
           <div class="flex justify-center">
-              <a href="#"
+              <a href="{% url 'products:list_products' %}"
                   class="inline-flex text-white bg-emerald-600 border-0 py-2 px-6 focus:outline-none hover:bg-emerald-600 rounded text-lg">
                   Gestionar Productos
               </a>
-              <a href="#"
+              <a href="{% url 'users:edit_user' %}"
                   class="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg">Modificar datos</a>
           </div>
       </div>

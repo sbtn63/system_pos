@@ -44,6 +44,9 @@
                             <th class="p-2">
                                 <div class=" font-semibold">Cantidad Disponoble</div>
                             </th>
+                            <th class="p-2">
+                                <div class=" font-semibold">Categoria</div>
+                            </th>
                         </tr>
                     </thead>
 
@@ -62,6 +65,9 @@
                             </td>
                             <td class="p-2">
                                 <div class="font-medium text-gray-800">{{ product.stock }}</div>
+                            </td>
+                            <td class="p-2">
+                                <div class="font-medium text-gray-800">{{ product.category.name }}</div>
                             </td>
                         </tr>
                         {% endfor %}

@@ -13,8 +13,10 @@ from .models import User, Dashboard
 from .forms import UserAdminRegisterForm, LoginUserForm, UserEmployeeRegisterForm, UserEditForm,DashboardForm
 
 class UserAdminRegisterView(View):
+    template_register = 'users/register.html'
+    
     def get(self, request, *args, **kwargs):
-        return render(request, 'users/register.html', {'form': UserAdminRegisterForm()})
+        return render(request, self.template_register, {'form': UserAdminRegisterForm()})
     
     def post(self, request, *args, **kwargs):
         form = UserAdminRegisterForm(request.POST)
@@ -32,15 +34,17 @@ class UserAdminRegisterView(View):
                 return redirect('home')
             except IntegrityError:
                 messages.warning(request, 'Email exists')
-                return render(request, 'users/register.html', {'form': UserAdminRegisterForm})
+                return render(request, self.template_register, {'form': UserAdminRegisterForm})
         else:
             messages.warning(request, 'Password not match')
-            return render(request, 'users/register.html', {'form': UserAdminRegisterForm})
+            return render(request, self.template_register, {'form': UserAdminRegisterForm})
 
 class UserEmployeeRegisterView(View):
+    template_create_user = 'users/admin/create.html'
+     
     def get(self, request, *args, **kwargs):
         if request.user.rol == 'Admin':
-            return render(request, 'users/admin/new_user.html', {'form': UserEmployeeRegisterForm})
+            return render(request, self.template_create_user, {'form': UserEmployeeRegisterForm})
         else:
             return render(request, 'components/404.html')
     
@@ -62,10 +66,10 @@ class UserEmployeeRegisterView(View):
                 return redirect('users:list_users')
             except IntegrityError:
                 messages.warning(request, 'Email exists')
-                return render(request, 'users/admin/new_user.html', {'form': UserEmployeeRegisterForm})
+                return render(request, self.template_create_user, {'form': UserEmployeeRegisterForm})
         else:
             messages.warning(request, 'Password not match')
-            return render(request, 'users/admin/new_user.html', {'form': UserEmployeeRegisterForm})
+            return render(request, self.template_create_user, {'form': UserEmployeeRegisterForm})
 
 class ListUsersForAdminView(LoginRequiredMixin, View):
     def get_users(self, request):
@@ -84,13 +88,15 @@ class ListUsersForAdminView(LoginRequiredMixin, View):
     
     def get(self, request, *args, **kwargs):
         if request.user.rol == 'Admin':
-            return render(request, 'users/admin/list_users.html', {'users': self.get_users(request)})
+            return render(request, 'users/admin/list.html', {'users': self.get_users(request)})
         else:
             return render(request, 'components/404.html')
 
 class LoginUserView(View):
+    template_login = 'users/login.html'
+    
     def get(self, request, *args, **kwargs):
-        return render(request, 'users/login.html', {'form': LoginUserForm})
+        return render(request, self.template_login, {'form': LoginUserForm})
     
     def post(self, request, *args, **kwargs):
         form = LoginUserForm(request.POST)
@@ -98,7 +104,7 @@ class LoginUserView(View):
             
         if user is None:
             messages.warning(request, 'Email or pasword incorrect')
-            return render(request, 'users/login.html', {'form': LoginUserForm})
+            return render(request, self.template_login, {'form': LoginUserForm})
         else:
             login(request, user)
             return redirect('home')
@@ -109,20 +115,29 @@ class LogoutUserView(View):
         return redirect('users:login')
 
 class EditUserView(LoginRequiredMixin, View):
+    template_admin = 'users/admin/edit.html'
+    template_employee = 'users/employees/edit.html'
+    template_404 = 'components/404.html'
+    
+    def get_template(self, request):
+        if request.user.rol == 'Admin':
+            return self.template_admin
+        if request.user.rol == 'Employee':
+            return self.template_employee
+        else:
+            return self.template_404
+        
     def get(self, request, *args, **kwargs):
         user = User.objects.get(email=request.user.email)
+        template = self.get_template(request)
         
-        if request.user.rol == 'Admin':
-            return render(request, 'users/admin/edit_user_form.html', {'form': UserEditForm(instance=user)})
-        if request.user.rol == 'Employee':
-            return render(request, 'users/employees/edit_user_form.html', {'form': UserEditForm(instance=user)})
-        else:
-            return render(request, 'components/404.html')
+        return render(request, template, {'form': UserEditForm(instance=user)})
     
     def post(self, request, *args, **kwargs):
         user_form = User.objects.get(email=request.user.email)
         current_password = request.POST['current_password']
         new_password = request.POST['password_new']
+        template = self.get_template(request)
                 
         user = authenticate(username=request.user.email, password=current_password)
                 
@@ -138,12 +153,7 @@ class EditUserView(LoginRequiredMixin, View):
             return redirect('home')
         else:
             messages.warning(request, 'Las contrasenia no es correcta')
-            if request.user.rol == 'Admin':
-                return render(request, 'users/admin/edit_user_form.html', {'form': UserEditForm(instance=user_form)})
-            if request.user.rol == 'Employee':
-                return render(request, 'users/employees/edit_user_form.html', {'form': UserEditForm(instance=user_form)})
-            else:
-                return render(request, 'components/404.html')
+            return render(request, template, {'form': UserEditForm(instance=user_form)})
                     
                 
 class DeleteUserEmployeView(LoginRequiredMixin, View):

@@ -14,8 +14,8 @@ from products.models import Product
 # Create your views here.
 
 class SaleListView(LoginRequiredMixin, View):
-    template_admin = 'sales/admin/list_sales.html'
-    template_employee = 'sales/employees/list_sales.html'
+    template_admin = 'sales/admin/list.html'
+    template_employee = 'sales/employees/list.html'
     template_404 = 'components/404.html'
     
     def get_sales(self, request):

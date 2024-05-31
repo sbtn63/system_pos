@@ -10,8 +10,8 @@ from categories.models import Category
 # Create your views here.
 
 class ListProductsView(LoginRequiredMixin, View):
-    template_admin = 'products/admin/list_products.html'
-    template_employee = 'products/employees/list_products.html'
+    template_admin = 'products/admin/list.html'
+    template_employee = 'products/employees/list.html'
     template_404 = 'components/404.html'
 
     def get_products(self, request):
@@ -40,8 +40,8 @@ class ListProductsView(LoginRequiredMixin, View):
             return render(request, self.template_employee, {'products': products})
 
 class CreateProductView(LoginRequiredMixin, View):
-    template_admin = 'products/admin/create_product.html'
-    template_employee = 'products/employees/create_product.html'
+    template_admin = 'products/admin/create.html'
+    template_employee = 'products/employees/create.html'
     template_404 = 'components/404.html'
 
     def get_products(self, request):
@@ -100,7 +100,7 @@ class CreateProductView(LoginRequiredMixin, View):
             return render(request, self.get_template(request), {'form': form})
     
 class UpdateProductAdminView(LoginRequiredMixin, View):
-    template_update = 'products/admin/update_product.html'
+    template_update = 'products/admin/update.html'
     template_404 = 'components/404.html'
 
     def get_template(self, request):
