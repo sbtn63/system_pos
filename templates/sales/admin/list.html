@@ -34,7 +34,9 @@
                     <td class="py-2 px-4 border-b border-grey-light">
                         {{ sale.product.name }}
                     </td>
-                    <td class="py-2 px-4 border-b border-grey-light">{{ sale.user.first_name }} {{ sale.user.last_name}}</td>
+                    <td class="py-2 px-4 border-b border-grey-light">
+                        {% if sale.user.first_name or sale.user.last_name %} {{ sale.user.fullname}} {% else %} {{ sale.user.email }}  {% endif %}
+                    </td>
                     <td class="py-2 px-4 border-b border-grey-light">{{ sale.price_sale }}</td>
                     <td class="py-2 px-4 border-b border-grey-light">{{ sale.amount_sale }}</td>
                     <td class="py-2 px-4 border-b border-grey-light">{{ sale.date_joined }}</td>

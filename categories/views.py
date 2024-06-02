@@ -1,14 +1,17 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.views import View
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 
+from utils.querys import fetch_items_for_user
 from .models import Category
 from .forms import CategoryForm, CategoryUpdateForm
 
+
 # Create your views here.
 
-class CategoryListView(View):
+class CategoryListView(LoginRequiredMixin, View):
     template_admin = 'categories/admin/list.html'
     template_employee = 'categories/employee/list.html'
     template_404 = 'components/404.html'
@@ -17,12 +20,7 @@ class CategoryListView(View):
         consult = request.GET.get('search')
         user = request.user
         
-        if user.rol == 'Admin':
-            categories = Category.objects.filter(Q(user=user) | Q(user__created_by_user=user))    
-        elif user.rol == 'Employee': 
-            categories = Category.objects.filter(Q(user=user.created_by_user) | Q(user__created_by_user=user.created_by_user))
-        else:
-            categories = None
+        categories = fetch_items_for_user(user=user, model=Category)
         
         if consult: 
             categories = categories.filter(Q(name__icontains=consult) | Q(location__icontains=consult))
@@ -39,23 +37,11 @@ class CategoryListView(View):
         elif request.user.rol == 'Employee':
             return render(request, self.template_employee, {'categories': categories})
 
-class CreateCategoryView(View):
+class CreateCategoryView(LoginRequiredMixin, View):
     template_admin = 'categories/admin/create.html'
     template_employee = 'categories/employee/create.html'
     template_404 = 'categories/404.html'
-    
-    def get_categories(self, request):
-        user = request.user
-
-        if user.rol == 'Admin': 
-            categories = Category.objects.filter(Q(user=user) | Q(user__created_by_user=user))
-        elif user.rol == 'Employee': 
-            categories = Category.objects.filter(Q(user=user.created_by_user) | Q(user__created_by_user=user.created_by_user))
-        else: 
-            categories = None
-
-        return categories
-    
+        
     def get_template(self, request):
         if request.user.rol == 'Admin':
             return self.template_admin
@@ -73,7 +59,7 @@ class CreateCategoryView(View):
         if form.is_valid():
             new_category = form.save(commit=False)
             
-            categories = self.get_categories(request)
+            categories = fetch_items_for_user(user=request.user, model=Category)
 
             for category in categories:
                 if category.code == new_category.code:
@@ -89,7 +75,7 @@ class CreateCategoryView(View):
             messages.warning(request, 'Formulario inválido')
             return render(request, self.get_template(request), {'form': form})
 
-class UpdateCategoryView(View):
+class UpdateCategoryView(LoginRequiredMixin, View):
     template_update = 'categories/admin/update.html'
     template_404 = 'categories/404.html'
     
@@ -103,13 +89,13 @@ class UpdateCategoryView(View):
     
     def get(self, request, pk, *args, **kwargs):
         template = self.get_template(request)
-        category = get_object_or_404(Category, Q(user=request.user) | Q(user__created_by_user=request.user), pk=pk)
+        category = fetch_items_for_user(user=request.user, model=Category, pk=pk)
         form = CategoryForm(instance=category)
         return render(request, template, {'form': form})
     
     def post(self, request, pk, *args, **kwargs):
         template = self.get_template(request)
-        category = get_object_or_404(Category, Q(user=request.user) | Q(user__created_by_user=request.user), pk=pk)
+        category = fetch_items_for_user(user=request.user, model=Category, pk=pk)
         form = CategoryUpdateForm(request.POST or None, instance=category)
         
         if form.is_valid():
@@ -120,10 +106,10 @@ class UpdateCategoryView(View):
             messages.warning(request, 'Formulario invalido')
             return render(request, template, {'form': form})
 
-class DeleteCategoryView(View):
+class DeleteCategoryView(LoginRequiredMixin, View):
     def get(self, request, pk, *args, **kwargs):
         if request.user.rol == 'Admin':
-            category = get_object_or_404(Category, Q(user=request.user) | Q(user__created_by_user=request.user), pk=pk)
+            category = fetch_items_for_user(user=request.user, model=Category, pk=pk)
             category.delete()
             messages.success(request, f'La categoria {category.name} con el codigo {category.code} fue eliminada')
             return redirect('categories:list_categories')

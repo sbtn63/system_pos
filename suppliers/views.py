@@ -1,27 +1,25 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.views import View
 from django.db.models import Q 
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 
+from utils.querys import fetch_items_for_user
 from .models import Supplier
 from .forms import SupplierForm
 
 # Create your views here.
 
-class ListSupplierView(View):
+class ListSupplierView(LoginRequiredMixin, View):
     template_admin = 'suppliers/admin/list.html'
     template_employee = 'suppliers/employees/list.html'
     template_404 = 'components/404.html'
     
     def get_suppliers(self, request):
         consult = request.GET.get('search')
+        user = request.user
         
-        if request.user.rol == 'Admin':
-            suppliers = Supplier.objects.filter(Q(user=request.user) | Q(user__created_by_user=request.user))
-        elif request.user.rol == 'Employee':
-            suppliers = Supplier.objects.filter(Q(user=request.user.created_by_user) | Q(user__created_by_user=request.user.created_by_user))
-        else:
-            suppliers = None
+        suppliers = fetch_items_for_user(user=user, model=Supplier)
         
         if consult:
             suppliers = suppliers.filter(Q(document__icontains=consult) | Q(name__icontains=consult))
@@ -38,25 +36,10 @@ class ListSupplierView(View):
         elif request.user.rol == 'Employee':
             return render(request, self.template_employee, {'suppliers' : suppliers})
 
-class CreateSupplierView(View):
+class CreateSupplierView(LoginRequiredMixin, View):
     template_admin = 'suppliers/admin/create.html'
     template_employee = 'suppliers/employees/create.html'
     template_404 = 'components/404.html'
-    
-    def get_supliers(self, request):
-        consult = request.GET.get('search')
-        
-        if request.user.rol == 'Admin':
-            suppliers = Supplier.objects.filter(Q(user=request.user) | Q(user__created_by_user=request.user))
-        elif request.user.rol == 'Employee':
-            suppliers = Supplier.objects.filter(Q(user=request.user.created_by_user) | Q(user__created_by_user=request.user.created_by_user))
-        else:
-            suppliers = None
-        
-        if consult:
-            suppliers = suppliers.filter(Q(document__icontains=consult) | Q(name__icontains=consult))
-        
-        return suppliers
     
     def get_template(self, request):
         if request.user.rol == 'Admin':
@@ -76,7 +59,7 @@ class CreateSupplierView(View):
         if form.is_valid():
             new_supplier = form.save(commit=False) 
             
-            suppliers = self.get_supliers(request)
+            suppliers = fetch_items_for_user(user=request.user, model=Supplier)
             
             for supplier in suppliers:
                 if new_supplier.document == supplier.document:
@@ -96,7 +79,7 @@ class CreateSupplierView(View):
             messages.warning(request, f'Formulario invalido')
             return render(request, self.get_template(request), {'form' : form})
             
-class UpdateSupplierView(View):
+class UpdateSupplierView(LoginRequiredMixin, View):
     template_admin = 'suppliers/admin/edit.html'
     template_404 = 'components/404.html'
     
@@ -108,9 +91,6 @@ class UpdateSupplierView(View):
         
         return suppliers
     
-    def get_supplier(self, request, pk):
-        return get_object_or_404(Supplier, Q(user=request.user) | Q(user__created_by_user=request.user), pk=pk)
-    
     def get_template(self, request):
         if request.user.rol == 'Admin':
             return self.template_admin
@@ -118,12 +98,12 @@ class UpdateSupplierView(View):
             return self.template_404
     
     def get(self, request, pk, *args, **kwargs):
-        supplier = self.get_supplier(request, pk)
+        supplier = fetch_items_for_user(user=request.user, model=Supplier, pk=pk)
         form = SupplierForm(instance=supplier)
         return render(request, self.get_template(request), {'form' : form})
     
     def post(self, request, pk, *args, **kwargs):
-        supplier = self.get_supplier(request, pk)
+        supplier = fetch_items_for_user(user=request.user, model=Supplier, pk=pk)
         form = SupplierForm(request.POST or None, instance=supplier)
         
         if form.is_valid():
@@ -148,10 +128,10 @@ class UpdateSupplierView(View):
             messages.warning(request, f'Formulario invalido')
             return render(request, self.get_template(request), {'form' : form})
 
-class DeleteSupplierView(View):
+class DeleteSupplierView(LoginRequiredMixin, View):
     def get(self, request, pk, *args, **kwargs):
         if request.user.rol == 'Admin':
-            supplier = get_object_or_404(Supplier, Q(user=request.user) | Q(user__created_by_user=request.user), pk=pk)
+            supplier = fetch_items_for_user(user=request.user, model=Supplier, pk=pk)
             supplier.delete()
             messages.success(request, f'El provedor {supplier.name} con el documento o nit {supplier.document} fue eliminado')
             return redirect('suppliers:list_suppliers')

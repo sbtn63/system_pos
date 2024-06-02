@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 
+from utils.querys import fetch_items_for_user
 from .models import Product
 from .forms import ProductForm, ProductUpdateForm
 from categories.models import Category
@@ -19,12 +20,7 @@ class ListProductsView(LoginRequiredMixin, View):
         consult = request.GET.get('search')
         user = request.user
 
-        if user.rol == 'Admin': 
-            products = Product.objects.filter(Q(user=user) | Q(user__created_by_user=user))
-        elif user.rol == 'Employee': 
-            products = Product.objects.filter(Q(user=user.created_by_user) | Q(user__created_by_user=user.created_by_user))
-        else: 
-            products = None
+        products = fetch_items_for_user(user=user, model=Product)
         
         if consult: 
             products = products.filter(Q(name__icontains=consult) | Q(code__icontains=consult))
@@ -44,29 +40,15 @@ class CreateProductView(LoginRequiredMixin, View):
     template_admin = 'products/admin/create.html'
     template_employee = 'products/employees/create.html'
     template_404 = 'components/404.html'
-
-    def get_products(self, request):
-        user = request.user
-
-        if user.rol == 'Admin': 
-            products = Product.objects.filter(Q(user=user) | Q(user__created_by_user=user))
-        elif user.rol == 'Employee': 
-            products = Product.objects.filter(Q(user=user.created_by_user) | Q(user__created_by_user=user.created_by_user))
-        else: 
-            products = None
-
-        return products
     
     def get_form(self, request, form):
         user = request.user
+        categories = fetch_items_for_user(user=user, model=Category)
+        suppliers = fetch_items_for_user(user=user, model=Supplier) 
 
-        if user.rol == 'Admin':
-            form.fields['category'].queryset = Category.objects.filter(Q(user=user) | Q(user__created_by_user=user)) 
-            form.fields['supplier'].queryset = Supplier.objects.filter(Q(user=user) | Q(user__created_by_user=user)) 
-        elif user.rol == 'Employee': 
-            form.fields['category'].queryset = Category.objects.filter(Q(user=user.created_by_user) | Q(user__created_by_user=user.created_by_user))
-            form.fields['supplier'].queryset = Supplier.objects.filter(Q(user=user.created_by_user) | Q(user__created_by_user=user.created_by_user))
-
+        form.fields['category'].queryset = categories
+        form.fields['supplier'].queryset = suppliers
+        
         return form
 
     def get_template(self, request):
@@ -86,7 +68,7 @@ class CreateProductView(LoginRequiredMixin, View):
         if form.is_valid():
             new_product = form.save(commit=False)
             
-            products = self.get_products(request)
+            products = fetch_items_for_user(user=request.user, model=Product)
 
             for product in products:
                 if product.code == new_product.code:
@@ -114,15 +96,17 @@ class UpdateProductAdminView(LoginRequiredMixin, View):
 
     def get(self, request, pk, *args, **kwargs):
         template = self.get_template(request)
-        product = get_object_or_404(Product, Q(user=request.user) | Q(user__created_by_user=request.user), pk=pk)
+        product = fetch_items_for_user(user=request.user, model=Product, pk=pk)
         form = ProductForm(instance=product)
-        form.fields['category'].queryset = Category.objects.filter(Q(user=request.user) | Q(user__created_by_user=request.user))
-        form.fields['supplier'].queryset = Supplier.objects.filter(Q(user=request.user) | Q(user__created_by_user=request.user))
+        
+        form.fields['category'].queryset = fetch_items_for_user(user=request.user, model=Category)
+        form.fields['supplier'].queryset = fetch_items_for_user(user=request.user, model=Supplier)
+        
         return render(request, template, {'form': form})
 
     def post(self, request, pk, *args, **kwargs):
         template = self.get_template(request)
-        product = get_object_or_404(Product, Q(user=request.user) | Q(user__created_by_user=request.user), pk=pk)
+        product = product = fetch_items_for_user(user=request.user, model=Product, pk=pk)
         form = ProductUpdateForm(request.POST or None, instance=product)
         
         if form.is_valid():
@@ -130,13 +114,13 @@ class UpdateProductAdminView(LoginRequiredMixin, View):
             messages.success(request, 'Producto actualizado')
             return redirect('products:list_products')
         else:
-            messages.warning(request, 'Formulario inválido')
+            messages.warning(request, f'Formulario inválido')
             return render(request, template, {'form': form})
 
 class DeleteProductAdminView(LoginRequiredMixin, View):
     def get(self, request, pk, *args, **kwargs):
         if request.user.rol == 'Admin':
-            product = get_object_or_404(Product, Q(user=request.user) | Q(user__created_by_user=request.user), pk=pk)
+            product = fetch_items_for_user(user=request.user, model=Product, pk=pk)
             product.delete()
             messages.warning(request, f'El producto {product.name} con codigo {product.code} fue eliminado')
             return redirect('products:list_products')

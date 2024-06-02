@@ -41,6 +41,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = CustomUserManager()
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
+    
+
+    def fullname(self):
+        return f'{self.first_name} {self.last_name}'    
+    
 
 class Dashboard(models.Model):
     name_company = models.CharField(max_length=50)

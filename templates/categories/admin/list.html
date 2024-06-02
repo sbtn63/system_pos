@@ -37,7 +37,7 @@
                             Ninguna
                         {% endif %}
                     </td>
-                    <td class="py-2 px-4 border-b border-grey-light">{% if category.user.first_name or category.user.last_name%} {{ category.user.first_name }}  {{ category.user.last_name }} {% else %} {{ category.user.email }} {% endif %}</td>
+                    <td class="py-2 px-4 border-b border-grey-light">{% if category.user.first_name or category.user.last_name%} {{ category.user.fullname }} {% else %} {{ category.user.email }} {% endif %}</td>
                     <td class="py-2 px-4 border-b border-grey-light">
                         <div class="flex gap-2">
                             <button class="openModal">

@@ -18,7 +18,7 @@
             <thead>
                 <tr class="text-sm leading-normal text-left">
                     <th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Nombre Completo</th>
-                    <th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Email o Username</th>
+                    <th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Email</th>
                     <th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light"></th>
                     
                 </tr>
@@ -26,7 +26,7 @@
             <tbody>
                 {% for user in users %}
                 <tr class="hover:bg-grey-lighter">
-                    <td class="py-2 px-4 border-b border-grey-light">{{ user.first_name }} {{ user.last_name }}</td>
+                    <td class="py-2 px-4 border-b border-grey-light">{% if user.first_name or user.last_name %} {{ user.fullname }} {% endif %}</td>
                     <td class="py-2 px-4 border-b border-grey-light">{{ user.email }}</td>
                     <td class="py-2 px-4 border-b border-grey-light">
                         <a onclick="alertDelete(this.href);return false;" href="{% url 'users:delete_user' user.id %}">

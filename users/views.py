@@ -63,7 +63,7 @@ class UserEmployeeRegisterView(View):
                 )
                     
                 new_employee_user.save()
-                messages.success(request, 'User Created')
+                messages.success(request, 'Usuario Creado!')
                 return redirect('users:list_users')
             except IntegrityError:
                 messages.warning(request, 'Email exists')
@@ -151,6 +151,7 @@ class EditUserView(LoginRequiredMixin, View):
                 update_session_auth_hash(request, user)
                     
             user.save()
+            messages.warning(request, 'Datos Actualizados')
             return redirect('home')
         else:
             messages.warning(request, 'Las contrasenia no es correcta')

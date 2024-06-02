@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.utils import timezone
 from django.views import View
@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.http import Http404
 
+from utils.querys import fetch_items_for_user
 from .models import Sale
 from products.models import Product
 
@@ -70,11 +71,7 @@ class CreateSaleView(LoginRequiredMixin, View):
         products = None
         
         if consult:
-            if user.rol == 'Admin':
-                products = Product.objects.filter(Q(user=request.user) | Q(user__created_by_user=request.user))
-            elif user.rol == 'Employee':
-                products = Product.objects.filter(Q(user=user.created_by_user) | Q(user__created_by_user=user.created_by_user))
-                
+            products = fetch_items_for_user(user=user, model=Product)
             products = products.filter(Q(code__icontains=consult) | Q(name__icontains=consult))
         
         return products
@@ -187,7 +184,7 @@ class CreateSaleView(LoginRequiredMixin, View):
 class DeleteSaleView(LoginRequiredMixin, View):
     def get(self, request, pk, *args, **kwargs):
         if request.user.rol == 'Admin':
-            sale = get_object_or_404(Sale, Q(user=request.user) | Q(user__created_by_user=request.user), pk=pk)
+            sale = fetch_items_for_user(user=request.user, model=Sale, pk=pk)
 
             product = Product.objects.get(id=sale.product.id)
             product.stock += sale.amount_sale
