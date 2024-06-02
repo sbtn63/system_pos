@@ -22,7 +22,7 @@
             {% csrf_token %}
             <div class="mt-5">
                 <!-- <label for="email" class="sc-bqyKva ePvcBv">Email</label> -->
-                {{ form.email|add_class:"block w-full p-2 border rounded border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent "|append_attr:"placeholder:Email o Username" }}
+                {{ form.email|add_class:"block w-full p-2 border rounded border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent "|append_attr:"placeholder:Email" }}
             </div>
             <div class="mt-5">
                 {{ form.password1|add_class:"block w-full p-2 border rounded border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent "|append_attr:"placeholder:Contraseña" }}

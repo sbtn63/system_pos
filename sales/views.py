@@ -17,7 +17,7 @@ from products.models import Product
 class SaleListView(LoginRequiredMixin, View):
     template_admin = 'sales/admin/list.html'
     template_employee = 'sales/employees/list.html'
-    template_404 = 'components/404.html'
+    template_403 = 'components/403.html'
     
     def get_sales(self, request):
         consult = request.GET.get('search')
@@ -39,7 +39,7 @@ class SaleListView(LoginRequiredMixin, View):
         sales = self.get_sales(request)
         
         if sales is None:
-            return render(request, self.template_404)
+            return render(request, self.template_403, status=403)
         elif request.user.rol == 'Admin':
             
             page = request.GET.get('page', 1)
@@ -57,7 +57,7 @@ class SaleListView(LoginRequiredMixin, View):
 class CreateSaleView(LoginRequiredMixin, View):
     template_admin = 'sales/admin/create.html'
     template_employee = 'sales/employees/create.html'
-    template_404 = 'components/404.html'
+    template_403 = 'components/403.html'
     
     def get_sales_products(self, request):
         return request.session.get('sales_products', [])
@@ -141,7 +141,7 @@ class CreateSaleView(LoginRequiredMixin, View):
         elif request.user.rol == 'Employee':
             return render(request, self.template_employee, context)
         else:
-            return render(request, self.template_404)
+            return render(request, self.template_403, status=403)
     
     def post(self, request, *args, **kwargs):
         with transaction.atomic():
@@ -194,4 +194,4 @@ class DeleteSaleView(LoginRequiredMixin, View):
             
             return redirect('sales:sale_list')
         else:
-            return render(request, 'components/404.htm')
+            return render(request, 'components/403.htm', status=403)

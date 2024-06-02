@@ -47,7 +47,7 @@ class UserEmployeeRegisterView(View):
         if request.user.rol == 'Admin':
             return render(request, self.template_create_user, {'form': UserEmployeeRegisterForm})
         else:
-            return render(request, 'components/404.html')
+            return render(request, 'components/403.html', status=403)
     
     def post(self, request, *args, **kwargs):
         form = UserEmployeeRegisterForm(request.POST)
@@ -91,7 +91,7 @@ class ListUsersForAdminView(LoginRequiredMixin, View):
         if request.user.rol == 'Admin':
             return render(request, 'users/admin/list.html', {'users': self.get_users(request)})
         else:
-            return render(request, 'components/404.html')
+            return render(request, 'components/403.html', status=403)
 
 class LoginUserView(View):
     template_login = 'users/login.html'
@@ -188,7 +188,7 @@ class DeleteUserEmployeView(LoginRequiredMixin, View):
             messages.info(request, f"El usuario {user.first_name} {user.last_name} ha sido eliminado!")
             return redirect("users:list_users")
         else:
-            return render(request, 'components/404.html')
+            return render(request, 'components/403.html', status=403)
 
 class DashboardAdminView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
@@ -196,7 +196,7 @@ class DashboardAdminView(LoginRequiredMixin, View):
             dashboard = Dashboard.objects.get(user=request.user)
             return render(request, 'users/admin/dashboard.html', {'form': DashboardForm( instance=dashboard), 'dashboard':dashboard})
         else:
-            return render(request, 'components/404.html')
+            return render(request, 'components/403.html', status=403)
     
     def post(self, request, *args, **kwargs):
         dashboard = Dashboard.objects.get(user=request.user)

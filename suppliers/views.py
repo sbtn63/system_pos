@@ -13,7 +13,7 @@ from .forms import SupplierForm
 class ListSupplierView(LoginRequiredMixin, View):
     template_admin = 'suppliers/admin/list.html'
     template_employee = 'suppliers/employees/list.html'
-    template_404 = 'components/404.html'
+    template_404 = 'components/403.html'
     
     def get_suppliers(self, request):
         consult = request.GET.get('search')
@@ -30,7 +30,7 @@ class ListSupplierView(LoginRequiredMixin, View):
         suppliers = self.get_suppliers(request)
         
         if suppliers is None:
-            return render(request, self.template_404)
+            return render(request, self.template_403, status=403)
         elif request.user.rol == 'Admin':
             return render(request, self.template_admin, {'suppliers' : suppliers})
         elif request.user.rol == 'Employee':
@@ -39,22 +39,23 @@ class ListSupplierView(LoginRequiredMixin, View):
 class CreateSupplierView(LoginRequiredMixin, View):
     template_admin = 'suppliers/admin/create.html'
     template_employee = 'suppliers/employees/create.html'
-    template_404 = 'components/404.html'
+    template_404 = 'components/403.html'
     
     def get_template(self, request):
         if request.user.rol == 'Admin':
             return self.template_admin
         elif request.user.rol == 'Employee':
             return self.template_employee
-        else:
-            return self.template_404
     
     def get(self, request, *args, **kwargs):
+        if request.user.rol not in ['Admin', 'Employee']:
+            return render(request, self.template_403, status=403)
+        
         form = SupplierForm()
         return render(request, self.get_template(request), {'form' : form})
     
     def post(self, request, *args, **kwargs):
-        form = SupplierForm(request.POST or None)
+        form = SupplierForm(request.POST)
         
         if form.is_valid():
             new_supplier = form.save(commit=False) 
@@ -81,7 +82,7 @@ class CreateSupplierView(LoginRequiredMixin, View):
             
 class UpdateSupplierView(LoginRequiredMixin, View):
     template_admin = 'suppliers/admin/edit.html'
-    template_404 = 'components/404.html'
+    template_403 = 'components/403.html'
     
     def get_supliers(self, request, pk):
         if request.user.rol == 'Admin':
@@ -94,17 +95,18 @@ class UpdateSupplierView(LoginRequiredMixin, View):
     def get_template(self, request):
         if request.user.rol == 'Admin':
             return self.template_admin
-        else:
-            return self.template_404
     
     def get(self, request, pk, *args, **kwargs):
+        if not request.user.rol == 'Admin':
+            return render(request, self.template_403, status=403)
+        
         supplier = fetch_items_for_user(user=request.user, model=Supplier, pk=pk)
         form = SupplierForm(instance=supplier)
         return render(request, self.get_template(request), {'form' : form})
     
     def post(self, request, pk, *args, **kwargs):
         supplier = fetch_items_for_user(user=request.user, model=Supplier, pk=pk)
-        form = SupplierForm(request.POST or None, instance=supplier)
+        form = SupplierForm(request.POST, instance=supplier)
         
         if form.is_valid():
             update_supplier = form.save(commit=False) 
@@ -136,4 +138,4 @@ class DeleteSupplierView(LoginRequiredMixin, View):
             messages.success(request, f'El provedor {supplier.name} con el documento o nit {supplier.document} fue eliminado')
             return redirect('suppliers:list_suppliers')
         else:
-            return render(request, 'components/404.html')
+            return render(request, 'components/403.html', status=403)
