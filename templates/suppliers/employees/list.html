@@ -23,57 +23,51 @@
         <!-- Table -->
         <div class="mx-auto w-full max-w-5xl rounded-sm border border-gray-200 bg-white shadow-lg">
             <header class="flex mx-auto justify-between border-b border-gray-100 px-5 py-4">
-                <div class="font-semibold text-gray-800">Lista de Productos</div>
-                <a href="{% url 'products:create_product' %}" class="bg-blue-500 rounded-lg px-1 py-0.5 text-sm text-white hover:bg-blue-600">Agregar</a>
+                <div class="font-semibold text-gray-800">Lista de Provedores</div>
+                <a href="{% url 'suppliers:create_supplier' %}" class="bg-blue-500 rounded-lg px-1 py-0.5 text-sm text-white hover:bg-blue-600">Agregar</a>
             </header>
 
             <div class="overflow-x-auto p-3">
-                {% if products %}
+                {% if suppliers %}
                 <table class="w-full table-auto">
                     <thead class="bg-gray-50 text-xs font-semibold uppercase text-gray-400">
                         <tr>
                             <th class="p-2">
-                                <div class=" font-semibold">Codigo</div>
+                                <div class=" font-semibold">DNI O NIT</div>
                             </th>
                             <th class="p-2">
-                                <div class=" font-semibold">Nombre Producto</div>
+                                <div class=" font-semibold">Nombre</div>
                             </th>
                             <th class="p-2">
-                                <div class=" font-semibold">Precio Unidad</div>
+                                <div class=" font-semibold">Ubicacion</div>
                             </th>
                             <th class="p-2">
-                                <div class=" font-semibold">Cantidad Disponoble</div>
+                                <div class=" font-semibold">Email</div>
                             </th>
                             <th class="p-2">
-                                <div class=" font-semibold">Categoria</div>
-                            </th>
-                            <th class="p-2">
-                                <div class=" font-semibold">Provedor</div>
+                                <div class=" font-semibold">Telefono</div>
                             </th>
                         </tr>
                     </thead>
 
                     <tbody class="divide-y divide-gray-100 text-sm">
                         <!-- record 1 -->
-                        {% for product in products %}
+                        {% for supplier in suppliers %}
                         <tr class="text-center">
                             <td class="p-2">
-                                <div class="font-medium text-gray-800">{{ product.code }}</div>
+                                <div class="font-medium text-gray-800">{{ supplier.document }}</div>
                             </td>
                             <td class="p-2">
-                                <div class="font-medium text-gray-800">{{ product.name }}</div>
+                                <div class="font-medium text-gray-800">{{ supplier.name }}</div>
                             </td>
                             <td class="p-2">
-                                <div class="font-medium text-gray-800">{{ product.price }}</div>
+                                <div class="font-medium text-gray-800">{{ supplier.location }}</div>
                             </td>
                             <td class="p-2">
-                                <div class="font-medium text-gray-800">{{ product.stock }}</div>
+                                <div class="font-medium text-gray-800">{{ supplier.email }}</div>
                             </td>
                             <td class="p-2">
-                                <div class="font-medium text-gray-800">{{ product.category.name }}</div>
-                            </td>
-                            <td class="p-2">
-                                <div class="font-medium text-gray-800">{{ product.supplier.name }}</div>
+                                <div class="font-medium text-gray-800">{{ supplier.phone }}</div>
                             </td>
                         </tr>
                         {% endfor %}

@@ -7,6 +7,7 @@ from django.contrib import messages
 from .models import Product
 from .forms import ProductForm, ProductUpdateForm
 from categories.models import Category
+from suppliers.models import Supplier
 # Create your views here.
 
 class ListProductsView(LoginRequiredMixin, View):
@@ -61,8 +62,10 @@ class CreateProductView(LoginRequiredMixin, View):
 
         if user.rol == 'Admin':
             form.fields['category'].queryset = Category.objects.filter(Q(user=user) | Q(user__created_by_user=user)) 
+            form.fields['supplier'].queryset = Supplier.objects.filter(Q(user=user) | Q(user__created_by_user=user)) 
         elif user.rol == 'Employee': 
             form.fields['category'].queryset = Category.objects.filter(Q(user=user.created_by_user) | Q(user__created_by_user=user.created_by_user))
+            form.fields['supplier'].queryset = Supplier.objects.filter(Q(user=user.created_by_user) | Q(user__created_by_user=user.created_by_user))
 
         return form
 
@@ -114,6 +117,7 @@ class UpdateProductAdminView(LoginRequiredMixin, View):
         product = get_object_or_404(Product, Q(user=request.user) | Q(user__created_by_user=request.user), pk=pk)
         form = ProductForm(instance=product)
         form.fields['category'].queryset = Category.objects.filter(Q(user=request.user) | Q(user__created_by_user=request.user))
+        form.fields['supplier'].queryset = Supplier.objects.filter(Q(user=request.user) | Q(user__created_by_user=request.user))
         return render(request, template, {'form': form})
 
     def post(self, request, pk, *args, **kwargs):

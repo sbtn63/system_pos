@@ -9,6 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from products.models import Product
 from categories.models import Category
 from sales.models import Sale
+from suppliers.models import Supplier
 from .models import User, Dashboard
 from .forms import UserAdminRegisterForm, LoginUserForm, UserEmployeeRegisterForm, UserEditForm,DashboardForm
 
@@ -168,6 +169,7 @@ class DeleteUserEmployeView(LoginRequiredMixin, View):
             products = Product.objects.filter(user=user)
             categories = Category.objects.filter(user=user)
             sales = Sale.objects.filter(user=user)
+            suppliers = Supplier.objects.filter(user=user)
             
             if products:
                 self.save_objects_user_admin(request, products)
@@ -177,6 +179,9 @@ class DeleteUserEmployeView(LoginRequiredMixin, View):
                     
             if sales:
                 self.save_objects_user_admin(request, sales)
+                
+            if suppliers:
+                self.save_objects_user_admin(request, suppliers)
             
             user.delete()
             messages.info(request, f"El usuario {user.first_name} {user.last_name} ha sido eliminado!")

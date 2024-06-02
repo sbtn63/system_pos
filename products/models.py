@@ -2,6 +2,7 @@ from django.db import models
 
 from users.models import User
 from categories.models import Category
+from suppliers.models import Supplier
 # Create your models here.
 
 class Product(models.Model):
@@ -11,6 +12,7 @@ class Product(models.Model):
     price = models.PositiveIntegerField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, verbose_name="products_category", on_delete=models.CASCADE)
+    supplier = models.ForeignKey(Supplier, verbose_name="products_supplier", on_delete=models.CASCADE)
     date_joined = models.DateTimeField(auto_now_add=True)
     
     class Meta:
