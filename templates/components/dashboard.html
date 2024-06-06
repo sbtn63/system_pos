@@ -40,22 +40,22 @@
         <!-- Barra lateral de navegación (oculta en dispositivos pequeños) -->
         <div class="p-2 bg-white w-full md:w-60 flex-col md:flex hidden" id="sideNav">
             <nav>
-                <a href="{% url 'home' %}" class="block text-gray-500 py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-cyan-500 hover:text-white" href="#">
+                <a href="{% url 'home' %}" class="{% if request.path == '/' %} text-cyan-500 {% else %} text-gray-500  {% endif %} block  py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-cyan-500 hover:text-white">
                     <i class="fas fa-home mr-2"></i>Inicio
                 </a>
-                <a href="{% url 'products:list_products' %}" class="block text-gray-500 py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-cyan-500 hover:text-white" href="#">
+                <a href="{% url 'products:list_products' %}" class="{% if request.path == '/products/' %} text-cyan-500 {% else %} text-gray-500  {% endif %} block  py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-cyan-500 hover:text-white" >
                     <i class="fas fa-file-alt mr-2"></i>Productos
                 </a>
-                <a href="{% url 'users:list_users' %}" class="block text-gray-500 py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-cyan-500 hover:text-white" href="#">
+                <a href="{% url 'users:list_users' %}" class="{% if request.path == '/users/list_users/' %} text-cyan-500 {% else %} text-gray-500  {% endif %} block  py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-cyan-500 hover:text-white" >
                     <i class="fas fa-users mr-2"></i>Empleados
                 </a>
-                <a class="block text-gray-500 py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-cyan-500 hover:text-white" href="{% url 'categories:list_categories' %}">
+                <a class="{% if request.path == '/categories/' %} text-cyan-500 {% else %} text-gray-500  {% endif %} block  py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-cyan-500 hover:text-white" href="{% url 'categories:list_categories' %}">
                     <i class="fas fa-store mr-2"></i>Categorias
                 </a>
-                <a href="{% url 'suppliers:list_suppliers' %}" class="block text-gray-500 py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-cyan-500 hover:text-white" href="#">
+                <a href="{% url 'suppliers:list_suppliers' %}" class="{% if request.path == '/suppliers/' %} text-cyan-500 {% else %} text-gray-500  {% endif %} block  py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-cyan-500 hover:text-white" >
                     <i class="fas fa-users mr-2"></i>Provedores
                 </a>
-                <a href="{% url 'sales:sale_list' %}" class="block text-gray-500 py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-cyan-500 hover:text-white" href="#">
+                <a href="{% url 'sales:sale_list' %}" class="{% if request.path == '/sales/' %} text-cyan-500 {% else %} text-gray-500  {% endif %} block  py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-cyan-500 hover:text-white" >
                     <i class="fas fa-exchange-alt mr-2"></i>Ventas
                 </a>
         
