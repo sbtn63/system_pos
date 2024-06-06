@@ -42,6 +42,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
     
+    class Meta:
+        ordering = ['-date_joined']
 
     def fullname(self):
         return f'{self.first_name} {self.last_name}'    
