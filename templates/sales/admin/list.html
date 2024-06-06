@@ -1,82 +1,48 @@
-{% extends 'components/dashboard.html' %}
+{% extends 'components/table_admin.html' %}
 
-{% block content_dashboard %}
+{% block title_table %}Lista de Ventas{% endblock title_table %}
 
-{% include 'components/search.html' %}
+{% block url_add %}
 
-<div class="mt-8 bg-white p-4 shadow rounded-lg">
-    <div class="flex mx-auto justify-between">
-        <h2 class="text-gray-500 text-lg font-semibold pb-4">Lista de Ventas
-        </h2>
-        <a href="{% url 'sales:sale_create' %}" class="bg-cyan-500 my-auto text-sm hover:bg-cyan-600 text-white py-1 px-4 rounded-lg">
-            Agregar
-        </a>
-    </div>
-    <div class="my-1"></div> <!-- Espacio de separación -->
-    <div class="bg-gradient-to-r from-cyan-300 to-cyan-500 h-px mb-6"></div> <!-- Línea con gradiente -->
-    {% if objects %}
-        <table class="w-full table-auto text-sm">
-            <thead>
-                <tr class="text-sm leading-normal text-left">
-                    <th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Producto Vendido</th>
-                    <th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Usuario</th>
-                    <th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Precion Unitario</th>
-                    <th class="py-2 px-4 bg-grey-lightest text-wrap font-bold uppercase text-sm text-grey-light border-b border-grey-light">Cantidad Vendida</th>
-                    <th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Fecha de Venta</th>
-                    <th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Total</th>
-                    <th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light"></th>
-                    
-                </tr>
-            </thead>
-            <tbody>
-                {% for sale in objects %}
-                <tr class="hover:bg-grey-lighter">
-                    <td class="py-2 px-4 border-b border-grey-light">
-                        {{ sale.product.name }}
-                    </td>
-                    <td class="py-2 px-4 border-b border-grey-light">
-                        {% if sale.user.first_name or sale.user.last_name %} {{ sale.user.fullname}} {% else %} {{ sale.user.email }}  {% endif %}
-                    </td>
-                    <td class="py-2 px-4 border-b border-grey-light">{{ sale.price_sale }}</td>
-                    <td class="py-2 px-4 border-b border-grey-light">{{ sale.amount_sale }}</td>
-                    <td class="py-2 px-4 border-b border-grey-light">{{ sale.date_joined }}</td>
-                    <td class="py-2 px-4 border-b border-grey-light">{{ sale.total_sale }}</td>
-                    <td class="py-2 px-4 border-b border-grey-light">
-                        <div class="flex gap-2">
-                            <a href="{% url 'sales:sale_delete' sale.id %}" onclick="alertDelete(this.href);return false;">
+<a href="{% url 'sales:sale_create' %}" class="bg-cyan-500 my-auto text-sm hover:bg-cyan-600 text-white py-1 px-4 rounded-lg">
+    Agregar
+</a>
 
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-red-600 w-6 h-6 hover:text-red-500">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                  </svg>                              
-    
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <div class="flex justify-center">
-            {% include 'components/paginator.html' %}
-        </div>
-    {% else %}
-        <p>No tienes ventas asociadas aun</p>
-    {% endif %}
-    <!-- Botón "Ver más" para la tabla de Autorizaciones Pendientes -->
-    {% comment %} <div class="text-right mt-4">
-        <button class="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2 px-4 rounded">
-            Ver más
-        </button>
-    </div> {% endcomment %}
-</div>
+{% endblock url_add %}
 
-<script>
-    function alertDelete(url){
-        var response = confirm("¿Estás seguro de que deseas este producto?");
-        if (response === true) {
-        window.location.href = url;
-        }
-    }
-</script>
 
-{% endblock content_dashboard %}
+{% block tr_thead %}
+
+<th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Producto Vendido</th>
+<th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Usuario</th>
+<th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Precion Unitario</th>
+<th class="py-2 px-4 bg-grey-lightest text-wrap font-bold uppercase text-sm text-grey-light border-b border-grey-light">Cantidad Vendida</th>
+<th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Fecha de Venta</th>
+<th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Total</th>
+<th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light"></th>
+
+{% endblock tr_thead %}
+
+{% block tr_tbody %}
+
+<td class="py-2 px-4 border-b border-grey-light">
+    {{ object.product.name }}
+</td>
+<td class="py-2 px-4 border-b border-grey-light">
+    {% if object.user.first_name or object.user.last_name %} {{ object.user.fullname}} {% else %} {{ object.user.email }}  {% endif %}
+</td>
+<td class="py-2 px-4 border-b border-grey-light">{{ object.price_sale }}</td>
+<td class="py-2 px-4 border-b border-grey-light">{{ object.amount_sale }}</td>
+<td class="py-2 px-4 border-b border-grey-light">{{ object.date_joined }}</td>
+<td class="py-2 px-4 border-b border-grey-light">{{ object.total_sale }}</td>
+<td class="py-2 px-4 border-b border-grey-light">
+    {% include 'components/modal.html' with delete_url='sales:sale_delete' %}
+</td>
+
+{% endblock tr_tbody %}
+
+{% block message %}
+
+No tienes ventas asociadas aun
+
+{% endblock message %}

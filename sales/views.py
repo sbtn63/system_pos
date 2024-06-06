@@ -5,10 +5,8 @@ from django.views import View
 from django.contrib import messages
 from django.db import transaction
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.paginator import Paginator
-from django.http import Http404
 
-from utils.querys import fetch_items_for_user
+from utils.querys import fetch_items_for_user, fetch_objects_pagination
 from .models import Sale
 from products.models import Product
 
@@ -19,6 +17,12 @@ class SaleListView(LoginRequiredMixin, View):
     template_employee = 'sales/employees/list.html'
     template_403 = 'components/403.html'
     
+    def get_template(self, request):
+        if request.user.rol == 'Admin':
+            return self.template_admin
+        elif request.user.rol == 'Employee':
+            return self.template_employee
+    
     def get_sales(self, request):
         consult = request.GET.get('search')
         user = request.user
@@ -27,8 +31,6 @@ class SaleListView(LoginRequiredMixin, View):
             sales = Sale.objects.filter(Q(user=user) | Q(user__created_by_user=user))
         elif user.rol == 'Employee':
             sales = Sale.objects.filter(user=user)
-        else:
-            sales = None
             
         if consult:
             sales = sales.filter(Q(product__name__icontains=consult))
@@ -36,23 +38,13 @@ class SaleListView(LoginRequiredMixin, View):
         return sales
     
     def get(self, request, *args, **kwargs):
-        sales = self.get_sales(request)
-        
-        if sales is None:
-            return render(request, self.template_403, status=403)
-        elif request.user.rol == 'Admin':
-            
+        if request.user.rol in ['Admin', 'Employee']:
             page = request.GET.get('page', 1)
-        
-            try:
-                paginator = Paginator(sales, 5)
-                sales = paginator.page(page)
-            except:
-                raise Http404
-            
-            return render(request, self.template_admin, {'objects' : sales, 'paginator' : paginator})
-        elif request.user.rol == 'Employee':
-            return render(request, self.template_employee, {'sales' : sales})
+            sales = self.get_sales(request)
+            sales, paginator = fetch_objects_pagination(page=page, objects=sales)
+            return render(request, self.get_template(request), {'objects' : sales, 'paginator' : paginator})
+        else:
+            return render(request, self.template_403, status=403)
 
 class CreateSaleView(LoginRequiredMixin, View):
     template_admin = 'sales/admin/create.html'

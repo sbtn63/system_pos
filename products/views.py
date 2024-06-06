@@ -4,7 +4,7 @@ from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 
-from utils.querys import fetch_items_for_user
+from utils.querys import fetch_items_for_user, fetch_objects_pagination
 from .models import Product
 from .forms import ProductForm, ProductUpdateForm
 from categories.models import Category
@@ -16,6 +16,12 @@ class ListProductsView(LoginRequiredMixin, View):
     template_employee = 'products/employees/list.html'
     template_403 = 'components/403.html'
 
+    def get_template(self, request):
+        if request.user.rol == 'Admin':
+            return self.template_admin
+        elif request.user.rol == 'Employee':
+            return self.template_employee
+        
     def get_products(self, request):
         consult = request.GET.get('search')
         user = request.user
@@ -28,13 +34,13 @@ class ListProductsView(LoginRequiredMixin, View):
         return products
 
     def get(self, request, *args, **kwargs):
-        products = self.get_products(request)
-        if products is None: 
+        if request.user.rol in ['Admin', 'Employee']:
+            page = request.GET.get('page', 1)
+            products = self.get_products(request)
+            products, paginator = fetch_objects_pagination(page=page, objects=products)
+            return render(request, self.get_template(request), {'objects' : products, 'paginator' : paginator})
+        else:
             return render(request, self.template_403, status=403)
-        elif request.user.rol == 'Admin': 
-            return render(request, self.template_admin, {'products': products})
-        elif request.user.rol == 'Employee': 
-            return render(request, self.template_employee, {'products': products})
 
 class CreateProductView(LoginRequiredMixin, View):
     template_admin = 'products/admin/create.html'

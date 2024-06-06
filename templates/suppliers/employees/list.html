@@ -1,84 +1,51 @@
-{% extends 'base.html' %}
+{% extends 'components/table_employee.html' %}
 
-{% block content %}
+{% block table_title %}Lista de Provedores{% endblock table_title %}
 
-{% include 'components/navbar.html' %}
+{% block add_url %}
 
+<a href="{% url 'suppliers:create_supplier' %}" class="bg-blue-500 rounded-lg px-1 py-0.5 text-sm text-white hover:bg-blue-600">Agregar</a>
 
-<div class="mx-auto mt-10 w-full max-w-5xl">
-    <div class="relative max-w-md w-full">
-        <form>
-        <div class="absolute top-1 left-2 inline-flex items-center p-2">
-            <i class="fas fa-search text-gray-400"></i>
-        </div>
-        <input name="search" class="w-full h-10 pl-10 pr-4 py-1 text-base placeholder-gray-500 border rounded-full focus:shadow-outline" type="search" placeholder="Buscar...">
-        </form>
-    </div>
-</div>
+{% endblock add_url %}
 
+{% block tr_thead %}
 
-<section class="h-1/2 mt-8  px-4 text-gray-600" x-data="app">
-    
-    <div class="flex h-full flex-col justify-center">
-        <!-- Table -->
-        <div class="mx-auto w-full max-w-5xl rounded-sm border border-gray-200 bg-white shadow-lg">
-            <header class="flex mx-auto justify-between border-b border-gray-100 px-5 py-4">
-                <div class="font-semibold text-gray-800">Lista de Provedores</div>
-                <a href="{% url 'suppliers:create_supplier' %}" class="bg-blue-500 rounded-lg px-1 py-0.5 text-sm text-white hover:bg-blue-600">Agregar</a>
-            </header>
+<th class="p-2">
+    <div class=" font-semibold">DNI O NIT</div>
+</th>
+<th class="p-2">
+    <div class=" font-semibold">Nombre</div>
+</th>
+<th class="p-2">
+    <div class=" font-semibold">Ubicacion</div>
+</th>
+<th class="p-2">
+    <div class=" font-semibold">Email</div>
+</th>
+<th class="p-2">
+    <div class=" font-semibold">Telefono</div>
+</th>
 
-            <div class="overflow-x-auto p-3">
-                {% if suppliers %}
-                <table class="w-full table-auto">
-                    <thead class="bg-gray-50 text-xs font-semibold uppercase text-gray-400">
-                        <tr>
-                            <th class="p-2">
-                                <div class=" font-semibold">DNI O NIT</div>
-                            </th>
-                            <th class="p-2">
-                                <div class=" font-semibold">Nombre</div>
-                            </th>
-                            <th class="p-2">
-                                <div class=" font-semibold">Ubicacion</div>
-                            </th>
-                            <th class="p-2">
-                                <div class=" font-semibold">Email</div>
-                            </th>
-                            <th class="p-2">
-                                <div class=" font-semibold">Telefono</div>
-                            </th>
-                        </tr>
-                    </thead>
+{% endblock tr_thead %}
 
-                    <tbody class="divide-y divide-gray-100 text-sm">
-                        <!-- record 1 -->
-                        {% for supplier in suppliers %}
-                        <tr class="text-center">
-                            <td class="p-2">
-                                <div class="font-medium text-gray-800">{{ supplier.document }}</div>
-                            </td>
-                            <td class="p-2">
-                                <div class="font-medium text-gray-800">{{ supplier.name }}</div>
-                            </td>
-                            <td class="p-2">
-                                <div class="font-medium text-gray-800">{{ supplier.location }}</div>
-                            </td>
-                            <td class="p-2">
-                                <div class="font-medium text-gray-800">{{ supplier.email }}</div>
-                            </td>
-                            <td class="p-2">
-                                <div class="font-medium text-gray-800">{{ supplier.phone }}</div>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                {% else %}
-                <div class="font-medium text-gray-800">No tienes registros asociados</div>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-</section>
+{% block tr_tbody %}
 
-{% endblock content %}
+<td class="p-2">
+    <div class="font-medium text-gray-800">{{ object.document }}</div>
+</td>
+<td class="p-2">
+    <div class="font-medium text-gray-800">{{ object.name }}</div>
+</td>
+<td class="p-2">
+    <div class="font-medium text-gray-800">{{ object.location }}</div>
+</td>
+<td class="p-2">
+    <div class="font-medium text-gray-800">{{ object.email }}</div>
+</td>
+<td class="p-2">
+    <div class="font-medium text-gray-800">{{ object.phone }}</div>
+</td>
+
+{% endblock tr_tbody %}
+
+{% block message %}No tienes registros asociados{% endblock message %}

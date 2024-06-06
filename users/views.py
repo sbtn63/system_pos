@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from utils.querys import fetch_objects_pagination
 from products.models import Product
 from categories.models import Category
 from sales.models import Sale
@@ -89,7 +90,10 @@ class ListUsersForAdminView(LoginRequiredMixin, View):
     
     def get(self, request, *args, **kwargs):
         if request.user.rol == 'Admin':
-            return render(request, 'users/admin/list.html', {'users': self.get_users(request)})
+            page = request.GET.get('page', 1)
+            users = self.get_users(request)
+            users, paginator = fetch_objects_pagination(page=page, objects=users)
+            return render(request, 'users/admin/list.html', {'objects' : users, 'paginator' : paginator})
         else:
             return render(request, 'components/403.html', status=403)
 

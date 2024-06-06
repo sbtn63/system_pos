@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from utils.querys import fetch_items_for_user
+from utils.querys import fetch_items_for_user, fetch_objects_pagination
 from .models import Supplier
 from .forms import SupplierForm
 
@@ -14,6 +14,12 @@ class ListSupplierView(LoginRequiredMixin, View):
     template_admin = 'suppliers/admin/list.html'
     template_employee = 'suppliers/employees/list.html'
     template_404 = 'components/403.html'
+    
+    def get_template(self, request):
+        if request.user.rol == 'Admin':
+            return self.template_admin
+        elif request.user.rol == 'Employee':
+            return self.template_employee
     
     def get_suppliers(self, request):
         consult = request.GET.get('search')
@@ -27,14 +33,13 @@ class ListSupplierView(LoginRequiredMixin, View):
         return suppliers
     
     def get(self, request, *args, **kwargs):
-        suppliers = self.get_suppliers(request)
-        
-        if suppliers is None:
+        if request.user.rol in ['Admin', 'Employee']:
+            page = request.GET.get('page', 1)
+            suppliers = self.get_suppliers(request)
+            suppliers, paginator = fetch_objects_pagination(page=page, objects=suppliers)
+            return render(request, self.get_template(request), {'objects' : suppliers, 'paginator' : paginator})
+        else:
             return render(request, self.template_403, status=403)
-        elif request.user.rol == 'Admin':
-            return render(request, self.template_admin, {'suppliers' : suppliers})
-        elif request.user.rol == 'Employee':
-            return render(request, self.template_employee, {'suppliers' : suppliers})
 
 class CreateSupplierView(LoginRequiredMixin, View):
     template_admin = 'suppliers/admin/create.html'

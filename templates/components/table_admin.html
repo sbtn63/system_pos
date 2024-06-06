@@ -1,0 +1,72 @@
+{% extends 'components/dashboard.html' %}
+
+{% block content_dashboard %}
+
+{% include 'components/search.html' %}
+
+<div class="mt-8 bg-white p-4 shadow rounded-lg">
+    <div class="flex mx-auto justify-between">
+        <h2 class="text-gray-500 text-lg font-semibold pb-4">
+            {% block title_table %}{% endblock title_table %}
+        </h2>
+
+        {% block url_add %}{% endblock url_add %}
+
+    </div>
+    <div class="my-1"></div> <!-- Espacio de separación -->
+    <div class="bg-gradient-to-r from-cyan-300 to-cyan-500 h-px mb-6"></div> <!-- Línea con gradiente -->
+    {% if objects %}
+        <table class="w-full table-auto text-sm">
+            <thead>
+                <tr class="text-sm leading-normal text-left">
+                    {% block tr_thead %}{% endblock tr_thead %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for object in objects %}
+                    <tr class="hover:bg-grey-lighter">
+                        {% block tr_tbody %}{% endblock tr_tbody %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="flex justify-center">
+            {% include 'components/paginator.html' %}
+        </div>
+        
+    {% else %}
+        <p>{% block message %}{% endblock message %}</p>
+    {% endif %}
+    <!-- Botón "Ver más" para la tabla de Autorizaciones Pendientes -->
+    {% comment %} <div class="text-right mt-4">
+        <button class="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2 px-4 rounded">
+            Ver más
+        </button>
+    </div> {% endcomment %}
+</div>
+
+<script>
+
+    // JavaScript to toggle the modal
+    const openButtons = document.querySelectorAll('.openModal');
+    const closeButtons = document.querySelectorAll('.closeModal');
+    const contactFormModal = document.querySelector('.modal');
+
+    openButtons.forEach((openButton) => {
+        openButton.addEventListener('click', () => {
+            contactFormModal.classList.remove('hidden');
+        });
+    })
+
+
+    closeButtons.forEach((closeButton) => {
+        closeButton.addEventListener('click', () => {
+            contactFormModal.classList.add('hidden');
+        });
+    })
+
+
+    </script>
+
+{% endblock content_dashboard %}
