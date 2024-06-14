@@ -4,7 +4,7 @@
 
 {% block url_add %}
 
-<a href="{% url 'users:new_user' %}" class="bg-cyan-500 my-auto text-sm hover:bg-cyan-600 text-white py-1 px-4 rounded-lg">
+<a href="{% url 'users:new' %}" class="bg-cyan-500 my-auto text-sm hover:bg-cyan-600 text-white py-1 px-4 rounded-lg">
     Agregar
 </a>
 
@@ -23,7 +23,7 @@
 <td class="py-2 px-4 border-b border-grey-light">{% if object.first_name or object.last_name %} {{ object.fullname }} {% endif %}</td>
 <td class="py-2 px-4 border-b border-grey-light">{{ object.email }}</td>
 <td class="py-2 px-4 border-b border-grey-light">
-    {% include 'components/admin/modal.html' with delete_url='users:delete_user' %}
+    {% include 'components/admin/modal.html' with delete_url='users:delete' %}
 </td>
 
 {% endblock tr_tbody %}

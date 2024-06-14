@@ -4,7 +4,7 @@
 
 {% block url_add %}
 
-<a href="{% url 'stock_reception:create_stock_reception' %}" class="bg-cyan-500 my-auto text-sm hover:bg-cyan-600 text-white py-1 px-4 rounded-lg">
+<a href="{% url 'receptions:create' %}" class="bg-cyan-500 my-auto text-sm hover:bg-cyan-600 text-white py-1 px-4 rounded-lg">
     Agregar
 </a>
 
@@ -39,7 +39,7 @@
 <td class="py-2 px-4 border-b border-grey-light">{{ object.reception_date }}</td>
 <td class="py-2 px-4 border-b border-grey-light">
     <div class="flex gap-2">
-        {% include 'components/admin/modal.html' with delete_url='stock_reception:delete_stock_reception' %}
+        {% include 'components/admin/modal.html' with delete_url='receptions:delete' %}
     <div>
 </td>
 {% endblock tr_tbody %}
