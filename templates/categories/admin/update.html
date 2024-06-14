@@ -1,7 +1,7 @@
 {% extends 'components/admin/form.html' %}
 {% load widget_tweaks %}
 
-{% block title %}Actualizar Categoria{% endblock title %}
+{% block title %}Actualizar Categoría{% endblock title %}
 
 {% block form_body %}
 
@@ -9,13 +9,13 @@
     {{ form.code|add_class:"block py-2.5 px-0 w-full text-sm text-gray-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 pee"|append_attr:"placeholder:Codigo"|append_attr:"disabled:true"}}
 </div>
 <div class="relative z-0 w-full mb-5 group">
-    {{ form.name|add_class:"block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 pee"|append_attr:"placeholder:Nombre Categoria"}}
+    {{ form.name|add_class:"block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 pee"|append_attr:"placeholder:Nombre Categoría"}}
 </div>
 
 <div class="relative z-0 w-full mb-5 group">
-    {{ form.location|add_class:"block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 pee"|append_attr:"placeholder:Ubicacion Categoria"}}
+    {{ form.location|add_class:"block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 pee"|append_attr:"placeholder:Ubicación Categoría"}}
 </div>
 
 {% endblock form_body %}
 
-{% block button_text %}Actualizar Categoria{% endblock button_text %}
+{% block button_text %}Actualizar Categoría{% endblock button_text %}

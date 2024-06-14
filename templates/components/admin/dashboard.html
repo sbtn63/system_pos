@@ -29,8 +29,8 @@
                 <i class="fas fa-user text-gray-500 text-lg"></i>
             </button>
             <div id="optionsNav" class="hidden origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 px-2 py-2">
-                <a href="{% url 'users:edit' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md">Mi Informacion</a>
-                <a href="{% url 'users:dashboard' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md">Compania</a>
+                <a href="{% url 'users:edit' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md">Mi Información</a>
+                <a href="{% url 'users:dashboard' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md">Compañía</a>
             </div>
         </div>
     </div>
@@ -53,10 +53,10 @@
                     <i class="fas fa-users mr-2"></i>Empleados
                 </a>
                 <a class="{% if request.path == '/categories/' %} text-cyan-500 {% else %} text-gray-500  {% endif %} block  py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-cyan-500 hover:text-white" href="{% url 'categories:list' %}">
-                    <i class="fas fa-store mr-2"></i>Categorias
+                    <i class="fas fa-store mr-2"></i>Categorías
                 </a>
                 <a href="{% url 'suppliers:list' %}" class="{% if request.path == '/suppliers/' %} text-cyan-500 {% else %} text-gray-500  {% endif %} block  py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-cyan-500 hover:text-white" >
-                    <i class="fas fa-users mr-2"></i>Provedores
+                    <i class="fas fa-users mr-2"></i>Proveedores
                 </a>
                 <a href="{% url 'sales:list' %}" class="{% if request.path == '/sales/' %} text-cyan-500 {% else %} text-gray-500  {% endif %} block  py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-cyan-500 hover:text-white" >
                     <i class="fas fa-exchange-alt mr-2"></i>Ventas

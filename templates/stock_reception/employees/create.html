@@ -3,7 +3,7 @@
 
 {% block title %}
 
-<h2 class="text-xl font-bold tracking-tight text-gray-900 sm:text-3xl">  Agregar Recepcion</h2>
+<h2 class="text-xl font-bold tracking-tight text-gray-900 sm:text-3xl">Registrar la Recepción de Stock</h2>
 
 {% endblock title %}
 
@@ -11,19 +11,19 @@
 
 <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
   <div>
-      <label for="email" class="block text-sm font-semibold leading-6 text-black">Cantidad</label>
+      <label for="email" class="block text-sm font-semibold leading-6 text-black">Cantidad Recibida</label>
       <div class="mt-2.5">
         {{ form.quantity_received|add_class:"block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm shadow-blue-500 ring-1 ring-inset ring-blue-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"}}
       </div>
   </div>
   <div>
-      <label for="phone" class="block text-sm font-semibold leading-6 text-black">Precio Unidad</label>
+      <label for="phone" class="block text-sm font-semibold leading-6 text-black">Precio Unitario</label>
       <div class="mt-2.5">
         {{ form.unit_price|add_class:"block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset shadow-blue-500 ring-blue-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6" }}
       </div>
   </div>
   <div class="sm:col-span-2">
-    <label for="location" class="block text-sm font-semibold leading-6 text-black">Fecha Recepcion</label>
+    <label for="location" class="block text-sm font-semibold leading-6 text-black">Fecha de Recepción</label>
     <div class="mt-2.5">
       {{ form.reception_date|add_class:"block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset shadow-blue-500 ring-blue-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"|append_attr:"type:date"}}
     </div>
@@ -50,4 +50,4 @@
 
 {% endblock form_body %}
 
-{% block button_text %}Crear Recepcion Stock{% endblock button_text %}
+{% block button_text %}Crear Recepción de Stock{% endblock button_text %}

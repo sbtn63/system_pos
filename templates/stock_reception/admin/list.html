@@ -1,6 +1,6 @@
 {% extends 'components/admin/table.html' %}
 
-{% block title_table %}Lista de Recepciones Stock{% endblock title_table %}
+{% block title_table %}Lista de Recepciones de Stock{% endblock title_table %}
 
 {% block url_add %}
 
@@ -18,7 +18,7 @@
 <th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Precio Unitario</th>
 <th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Nota</th>
 <th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Creador</th>
-<th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Recepcion</th>
+<th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Fecha de Recepción</th>
 <th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light"></th>  
 
 {% endblock tr_thead %}
@@ -44,4 +44,4 @@
 </td>
 {% endblock tr_tbody %}
 
-{% block message %}No tienes provedores asociados aun{% endblock message %}
+{% block message %}No tienes recepciones de stock asociadas aún{% endblock message %}
