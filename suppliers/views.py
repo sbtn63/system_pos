@@ -69,16 +69,16 @@ class CreateSupplierView(LoginRequiredMixin, View):
             
             for supplier in suppliers:
                 if new_supplier.document == supplier.document:
-                    messages.warning(request, f'El documento {new_supplier.document} ya esta asociado a un provedor')
+                    messages.warning(request, f'El documento {new_supplier.document} ya esta asociado a un proveedor')
                     return render(request, self.get_template(request), {'form' : form})
                 
                 if new_supplier.email == supplier.email:
-                    messages.warning(request, f'El email {new_supplier.email} ya esta asociado a un provedor')
+                    messages.warning(request, f'El email {new_supplier.email} ya esta asociado a un proveedor')
                     return render(request, self.get_template(request), {'form' : form})
             
             new_supplier.user = request.user
             new_supplier.save()
-            messages.success(request, f'EL provedor {new_supplier.name} con dni o nit {new_supplier.document} fue creado')
+            messages.success(request, f'EL proveedor {new_supplier.name} con dni o nit {new_supplier.document} fue creado')
             return redirect('suppliers:list')
         
         else:
@@ -120,15 +120,15 @@ class UpdateSupplierView(LoginRequiredMixin, View):
             
             for supplier in suppliers:
                 if update_supplier.document == supplier.document:
-                    messages.warning(request, f'El documento {update_supplier.document} ya esta asociado a un provedor')
+                    messages.warning(request, f'El documento {update_supplier.document} ya esta asociado a un proveedor')
                     return render(request, self.get_template(request), {'form' : form})
                 
                 if update_supplier.email == supplier.email:
-                    messages.warning(request, f'El email {update_supplier.email} ya esta asociado a un provedor')
+                    messages.warning(request, f'El email {update_supplier.email} ya esta asociado a un proveedor')
                     return render(request, self.get_template(request), {'form' : form})
             
             update_supplier.save()
-            messages.success(request, f'EL provedor {update_supplier.name} con dni o nit {update_supplier.document} fue actualizado')
+            messages.success(request, f'EL proveedor {update_supplier.name} con dni o nit {update_supplier.document} fue actualizado')
             return redirect('suppliers:list')
         
         else:
@@ -140,7 +140,7 @@ class DeleteSupplierView(LoginRequiredMixin, View):
         if request.user.rol == 'Admin':
             supplier = fetch_items_for_user(user=request.user, model=Supplier, pk=pk)
             supplier.delete()
-            messages.success(request, f'El provedor {supplier.name} con el documento o nit {supplier.document} fue eliminado')
+            messages.success(request, f'El proveedor {supplier.name} con el documento o nit {supplier.document} fue eliminado')
             return redirect('suppliers:list')
         else:
             return render(request, 'components/403.html', status=403)

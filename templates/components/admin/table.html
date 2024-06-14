@@ -48,25 +48,13 @@
 
 <script>
 
-    // JavaScript to toggle the modal
-    const openButtons = document.querySelectorAll('.openModal');
-    const closeButtons = document.querySelectorAll('.closeModal');
-    const contactFormModal = document.querySelector('.modal');
+    function confirmarEliminar(url) {
+        var respuesta = confirm("¿Estás seguro de que deseas elimiar?");
+        if (respuesta === true) {
+          window.location.href = url;
+        }
+    }
 
-    openButtons.forEach((openButton) => {
-        openButton.addEventListener('click', () => {
-            contactFormModal.classList.remove('hidden');
-        });
-    })
-
-
-    closeButtons.forEach((closeButton) => {
-        closeButton.addEventListener('click', () => {
-            contactFormModal.classList.add('hidden');
-        });
-    })
-
-
-    </script>
+</script>
 
 {% endblock content_dashboard %}

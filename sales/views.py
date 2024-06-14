@@ -183,7 +183,6 @@ class DeleteSaleView(LoginRequiredMixin, View):
             product.save()
             
             sale.delete()
-            
             return redirect('sales:list')
         else:
             return render(request, 'components/403.htm', status=403)

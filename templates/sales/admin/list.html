@@ -1,4 +1,5 @@
 {% extends 'components/admin/table.html' %}
+{% load humanize %}
 
 {% block title_table %}Lista de Ventas{% endblock title_table %}
 
@@ -31,12 +32,12 @@
 <td class="py-2 px-4 border-b border-grey-light">
     {% if object.user.first_name or object.user.last_name %} {{ object.user.fullname}} {% else %} {{ object.user.email }}  {% endif %}
 </td>
-<td class="py-2 px-4 border-b border-grey-light">{{ object.price_sale }}</td>
+<td class="py-2 px-4 border-b border-grey-light">{{ object.price_sale|intcomma }}</td>
 <td class="py-2 px-4 border-b border-grey-light">{{ object.amount_sale }}</td>
-<td class="py-2 px-4 border-b border-grey-light">{{ object.created_at }}</td>
-<td class="py-2 px-4 border-b border-grey-light">{{ object.total_sale }}</td>
+<td class="py-2 px-4 border-b border-grey-light">{{ object.created_at|date:"SHORT_DATE_FORMAT" }} , {{ object.created_at|time:"H:i" }}</td>
+<td class="py-2 px-4 border-b border-grey-light">{{ object.total_sale|intcomma }}</td>
 <td class="py-2 px-4 border-b border-grey-light">
-    {% include 'components/admin/modal.html' with delete_url='sales:delete' %}
+    {% include 'components/admin/modal.html' with delete_url='sales:delete' object_id=object.id %}
 </td>
 
 {% endblock tr_tbody %}

@@ -1,4 +1,4 @@
-<button class="openModal">
+{% comment %} <button class="openModal" data-object-id="{{ object.id }}" onclick="console.log('Object ID:', {{ object.id }})">
 
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-red-600 w-6 h-6 hover:text-red-500">
         <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
@@ -27,7 +27,7 @@
                     d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
             <h3 class="text-xl font-normal text-gray-500 mt-5 mb-6">¿Estás seguro de eliminar?</h3>
-            <a href="{%  url delete_url object.id %}"
+            <a href="{%  url delete_url object_id %}"
                 class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">
                 Aceptar
             </a>
@@ -39,3 +39,48 @@
 
     </div>
 </div>
+
+
+<script>
+
+    // JavaScript to toggle the modal
+    {% comment %} const openButtons = document.querySelectorAll('.openModal');
+    const closeButtons = document.querySelectorAll('.closeModal');
+    const contactFormModal = document.querySelector('.modal');
+
+    openButtons.forEach((openButton) => {
+        openButton.addEventListener('click', () => {
+            contactFormModal.classList.remove('hidden');
+        });
+    })
+
+
+    closeButtons.forEach((closeButton) => {
+        closeButton.addEventListener('click', () => {
+            contactFormModal.classList.add('hidden');
+        });
+    }) {% endcomment %}
+
+    {% comment %} const openButtons = document.querySelectorAll('.openModal');
+    const closeButtons = document.querySelectorAll('.closeModal');
+    const modal = document.querySelector('.modal');
+
+    openButtons.forEach((openButton) => {
+        openButton.addEventListener('click', (event) => {
+            // Obtener el ID del objeto desde el atributo personalizado
+            const objectId = event.currentTarget.getAttribute('data-object-id');
+            console.log('Object ID:', objectId); // Para verificar que estás capturando el ID correcto
+
+            // Aquí puedes usar objectId para hacer cualquier cosa que necesites, como construir dinámicamente el URL de eliminación o actualizar el contenido del modal.
+            
+            modal.classList.remove('hidden');
+        });
+    });
+
+</script> {% endcomment %}
+
+<a href="{% url delete_url object_id %}" onclick="confirmarEliminar(this.href); return false;">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-red-600 w-6 h-6 hover:text-red-500">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+      </svg>  
+</a>

@@ -100,7 +100,7 @@ class DeleteStockReceptionView(LoginRequiredMixin, View):
             except Product.DoesNotExist:
                 messages.warning(request, 'El producto no existe')
                 
-            messages.success(request, f'La recepcion del procusto {stock_reception.product.name}fue eliminada')
+            messages.success(request, f'La recepción del procusto {stock_reception.product.name} fue eliminada')
             return redirect('receptions:list')
         else:
             return render(request, 'components/403.html', status=403)

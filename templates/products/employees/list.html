@@ -1,4 +1,5 @@
 {% extends 'components/employees/table.html' %}
+{% load humanize %}
 
 {% block table_title %}Lista de Productos{% endblock table_title %}
 
@@ -40,7 +41,7 @@
     <div class="font-medium text-gray-800">{{ object.name }}</div>
 </td>
 <td class="p-2">
-    <div class="font-medium text-gray-800">{{ object.price }}</div>
+    <div class="font-medium text-gray-800">{{ object.price|intcomma }}</div>
 </td>
 <td class="p-2">
     <div class="font-medium text-gray-800">{{ object.stock }}</div>

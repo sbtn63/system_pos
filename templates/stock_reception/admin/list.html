@@ -1,4 +1,5 @@
 {% extends 'components/admin/table.html' %}
+{% load humanize %}
 
 {% block title_table %}Lista de Recepciones de Stock{% endblock title_table %}
 
@@ -28,7 +29,7 @@
 <td class="py-2 px-4 border-b border-grey-light">{{ object.product.name }} </td>
 <td class="py-2 px-4 border-b border-grey-light">{{ object.supplier.name }} </td>
 <td class="py-2 px-4 border-b border-grey-light">{{ object.quantity_received }}</td>
-<td class="py-2 px-4 border-b border-grey-light">{{ object.unit_price }}</td>
+<td class="py-2 px-4 border-b border-grey-light">{{ object.unit_price|intcomma }}</td>
 <td class="py-2 px-4 border-b border-grey-light">
     {% if object.note %}
         {{ object.note }}
@@ -36,10 +37,10 @@
         Ninguna
     {% endif %}</td>
 <td class="py-2 px-4 border-b border-grey-light">{% if object.user.first_name or object.user.last_name%} {{ object.user.fullname }} {% else %} {{ object.user.email }} {% endif %}</td>
-<td class="py-2 px-4 border-b border-grey-light">{{ object.reception_date }}</td>
+<td class="py-2 px-4 border-b border-grey-light">{{ object.reception_date|date:"SHORT_DATE_FORMAT" }}</td>
 <td class="py-2 px-4 border-b border-grey-light">
     <div class="flex gap-2">
-        {% include 'components/admin/modal.html' with delete_url='receptions:delete' %}
+        {% include 'components/admin/modal.html' with delete_url='receptions:delete' object_id=object.id %}
     <div>
 </td>
 {% endblock tr_tbody %}

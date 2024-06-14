@@ -32,7 +32,7 @@
 <td class="py-2 px-4 border-b border-grey-light">{% if object.user.first_name or object.user.last_name%} {{ object.user.fullname }} {% else %} {{ object.user.email }} {% endif %}</td>
 <td class="py-2 px-4 border-b border-grey-light">
     <div class="flex gap-2">
-        {% include 'components/admin/modal.html' with delete_url='suppliers:delete' %}
+        {% include 'components/admin/modal.html' with delete_url='suppliers:delete' object_id=object.id %}
 
         <a href="{% url 'suppliers:update' object.id %}">
             {% include 'components/admin/icon_update.html' %}

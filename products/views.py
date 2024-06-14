@@ -123,7 +123,7 @@ class DeleteProductAdminView(LoginRequiredMixin, View):
         if request.user.rol == 'Admin':
             product = fetch_items_for_user(user=request.user, model=Product, pk=pk)
             product.delete()
-            messages.warning(request, f'El producto {product.name} con codigo {product.code} fue eliminado')
+            messages.warning(request, f'El producto {product.name} con código {product.code} fue eliminado')
             return redirect('products:list')
         else:          
             return render(request, 'components/403.html', status=403)
