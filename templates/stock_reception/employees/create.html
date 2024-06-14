@@ -11,37 +11,37 @@
 
 <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
   <div>
-      <label for="email" class="block text-sm font-semibold leading-6 text-black">Cantidad Recibida</label>
+      <label for="quantity_received" class="block text-sm font-semibold leading-6 text-black">Cantidad Recibida</label>
       <div class="mt-2.5">
         {{ form.quantity_received|add_class:"block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm shadow-blue-500 ring-1 ring-inset ring-blue-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"}}
       </div>
   </div>
   <div>
-      <label for="phone" class="block text-sm font-semibold leading-6 text-black">Precio Unitario</label>
+      <label for="unit_price" class="block text-sm font-semibold leading-6 text-black">Precio Unitario</label>
       <div class="mt-2.5">
         {{ form.unit_price|add_class:"block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset shadow-blue-500 ring-blue-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6" }}
       </div>
   </div>
   <div class="sm:col-span-2">
-    <label for="location" class="block text-sm font-semibold leading-6 text-black">Fecha de Recepción</label>
+    <label for="reception_date" class="block text-sm font-semibold leading-6 text-black">Fecha de Recepción</label>
     <div class="mt-2.5">
       {{ form.reception_date|add_class:"block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset shadow-blue-500 ring-blue-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"|append_attr:"type:date"}}
     </div>
   </div>
   <div class="sm:col-span-2">
-      <label for="location" class="block text-sm font-semibold leading-6 text-black">Nota</label>
+      <label for="note" class="block text-sm font-semibold leading-6 text-black">Nota</label>
       <div class="mt-2.5">
         {{ form.note|add_class:"block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset shadow-blue-500 ring-blue-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"}}
       </div>
   </div>
   <div>
-    <label for="email" class="block text-sm font-semibold leading-6 text-black">Producto</label>
+    <label for="product" class="block text-sm font-semibold leading-6 text-black">Producto</label>
     <div class="mt-2.5">
       {{ form.product|add_class:"block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm shadow-blue-500 ring-1 ring-inset ring-blue-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"}}
     </div>
   </div>
   <div>
-    <label for="phone" class="block text-sm font-semibold leading-6 text-black">Provedor</label>
+    <label for="supplier" class="block text-sm font-semibold leading-6 text-black">Provedor</label>
     <div class="mt-2.5">
       {{ form.supplier|add_class:"block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset shadow-blue-500 ring-blue-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6" }}
     </div>
