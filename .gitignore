@@ -138,3 +138,6 @@ dmypy.json
 cython_debug/
 
 migrations/
+
+media/
+media_root/
