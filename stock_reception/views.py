@@ -81,7 +81,7 @@ class CreateStockReceptionView(View):
                 messages.warning(request, 'El producto no existe')
                 return render(request, self.get_template(request), {'form': form})
             messages.success(request, f"Recepción agregada del producto {new_stock_reception.product.name}")
-            return redirect("stock_reception:list_stock_receptions")
+            return redirect("receptions:list")
         else:
             messages.warning(request, 'Formulario inválido')
             return render(request, self.get_template(request), {'form': form})
@@ -101,6 +101,6 @@ class DeleteStockReceptionView(LoginRequiredMixin, View):
                 messages.warning(request, 'El producto no existe')
                 
             messages.success(request, f'La recepcion del procusto {stock_reception.product.name}fue eliminada')
-            return redirect('stock_reception:list_stock_receptions')
+            return redirect('receptions:list')
         else:
             return render(request, 'components/403.html', status=403)

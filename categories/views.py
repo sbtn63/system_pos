@@ -75,7 +75,7 @@ class CreateCategoryView(LoginRequiredMixin, View):
             new_category.user = request.user
             new_category.save()
             messages.success(request, f'Categoria {new_category.name} con código {new_category.code} fue creada')
-            return redirect('categories:list_categories')
+            return redirect('categories:list')
 
         else:
             messages.warning(request, 'Formulario inválido')
@@ -108,7 +108,7 @@ class UpdateCategoryView(LoginRequiredMixin, View):
         if form.is_valid():
             form.save()
             messages.success(request, 'Categoria Actualizada')
-            return redirect('categories:list_categories')
+            return redirect('categories:list')
         else:
             messages.warning(request, 'Formulario invalido')
             return render(request, template, {'form': form})
@@ -119,6 +119,6 @@ class DeleteCategoryView(LoginRequiredMixin, View):
             category = fetch_items_for_user(user=request.user, model=Category, pk=pk)
             category.delete()
             messages.success(request, f'La categoria {category.name} con el codigo {category.code} fue eliminada')
-            return redirect('categories:list_categories')
+            return redirect('categories:list')
         else:
             return render(request, 'components/403.html', status=403)

@@ -79,7 +79,7 @@ class CreateSaleView(LoginRequiredMixin, View):
                     sales_product['stock'] += product.stock
                     sales_product['total'] += product.price * product.stock
                     self.set_sales_products(request, sales_products)
-                    return redirect('sales:sale_create')
+                    return redirect('sales:create')
                         
             product_data = {
                 'id': product.id,
@@ -93,16 +93,16 @@ class CreateSaleView(LoginRequiredMixin, View):
             
             sales_products.append(product_data)
             self.set_sales_products(request, sales_products)
-            return redirect('sales:sale_create')
+            return redirect('sales:create')
         else:
             messages.warning(request, 'Stock insuficiente')
-            return redirect('sales:sale_create')
+            return redirect('sales:create')
     
     def remove_product_from_sales(self, request, sale_product_id):
         sales_products = self.get_sales_products(request)
         sales_products = [sales_product for sales_product in sales_products if sales_product['id'] != int(sale_product_id)]
         self.set_sales_products(request, sales_products)
-        return redirect('sales:sale_create')
+        return redirect('sales:create')
     
     def get_total(self, request):
         sales_products = self.get_sales_products(request)
@@ -146,7 +146,7 @@ class CreateSaleView(LoginRequiredMixin, View):
                 product = products_to_update[sales_product['id']]
                 if sales_product['stock'] > product.stock:
                     messages.warning(request, 'Stock insuficiente')
-                    return redirect('sales:sale_create')
+                    return redirect('sales:create')
 
                 existing_sale_product = Sale.objects.filter(
                     product_id=sales_product['id'],
@@ -171,7 +171,7 @@ class CreateSaleView(LoginRequiredMixin, View):
                 
             self.set_sales_products(request, [])
         
-        return redirect('sales:sale_list')
+        return redirect('sales:list')
     
 class DeleteSaleView(LoginRequiredMixin, View):
     def get(self, request, pk, *args, **kwargs):
@@ -184,6 +184,6 @@ class DeleteSaleView(LoginRequiredMixin, View):
             
             sale.delete()
             
-            return redirect('sales:sale_list')
+            return redirect('sales:list')
         else:
             return render(request, 'components/403.htm', status=403)

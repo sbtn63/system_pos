@@ -81,7 +81,7 @@ class CreateProductView(LoginRequiredMixin, View):
             new_product.user = request.user
             new_product.save()
             messages.success(request, f'Producto {new_product.name} con código {new_product.code} fue creado')
-            return redirect('products:list_products')
+            return redirect('products:list')
 
         else:
             messages.warning(request, 'Formulario inválido')
@@ -113,7 +113,7 @@ class UpdateProductAdminView(LoginRequiredMixin, View):
         if form.is_valid():
             form.save()
             messages.success(request, 'Producto actualizado')
-            return redirect('products:list_products')
+            return redirect('products:list')
         else:
             messages.warning(request, f'Formulario inválido')
             return render(request, template, {'form': form})
@@ -124,6 +124,6 @@ class DeleteProductAdminView(LoginRequiredMixin, View):
             product = fetch_items_for_user(user=request.user, model=Product, pk=pk)
             product.delete()
             messages.warning(request, f'El producto {product.name} con codigo {product.code} fue eliminado')
-            return redirect('products:list_products')
+            return redirect('products:list')
         else:          
             return render(request, 'components/403.html', status=403)

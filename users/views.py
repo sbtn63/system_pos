@@ -66,7 +66,7 @@ class UserEmployeeRegisterView(View):
                     
                 new_employee_user.save()
                 messages.success(request, 'Usuario Creado!')
-                return redirect('users:list_users')
+                return redirect('users:list')
             except IntegrityError:
                 messages.warning(request, 'Email exists')
                 return render(request, self.template_create_user, {'form': UserEmployeeRegisterForm})
@@ -195,7 +195,7 @@ class DeleteUserEmployeView(LoginRequiredMixin, View):
             
             user.delete()
             messages.info(request, f"El usuario {user.first_name} {user.last_name} ha sido eliminado!")
-            return redirect("users:list_users")
+            return redirect("users:list")
         else:
             return render(request, 'components/403.html', status=403)
 

@@ -79,7 +79,7 @@ class CreateSupplierView(LoginRequiredMixin, View):
             new_supplier.user = request.user
             new_supplier.save()
             messages.success(request, f'EL provedor {new_supplier.name} con dni o nit {new_supplier.document} fue creado')
-            return redirect('suppliers:list_suppliers')
+            return redirect('suppliers:list')
         
         else:
             messages.warning(request, f'Formulario invalido')
@@ -129,7 +129,7 @@ class UpdateSupplierView(LoginRequiredMixin, View):
             
             update_supplier.save()
             messages.success(request, f'EL provedor {update_supplier.name} con dni o nit {update_supplier.document} fue actualizado')
-            return redirect('suppliers:list_suppliers')
+            return redirect('suppliers:list')
         
         else:
             messages.warning(request, f'Formulario invalido')
@@ -141,6 +141,6 @@ class DeleteSupplierView(LoginRequiredMixin, View):
             supplier = fetch_items_for_user(user=request.user, model=Supplier, pk=pk)
             supplier.delete()
             messages.success(request, f'El provedor {supplier.name} con el documento o nit {supplier.document} fue eliminado')
-            return redirect('suppliers:list_suppliers')
+            return redirect('suppliers:list')
         else:
             return render(request, 'components/403.html', status=403)
