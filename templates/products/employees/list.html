@@ -23,10 +23,10 @@
     <div class=" font-semibold">Cantidad Disponoble</div>
 </th>
 <th class="p-2">
-    <div class=" font-semibold">Categoria</div>
+    <div class=" font-semibold">Estado</div>
 </th>
 <th class="p-2">
-    <div class=" font-semibold">Provedor</div>
+    <div class=" font-semibold">Categoria</div>
 </th>
 
 {% endblock tr_thead %}
@@ -46,10 +46,16 @@
     <div class="font-medium text-gray-800">{{ object.stock }}</div>
 </td>
 <td class="p-2">
-    <div class="font-medium text-gray-800">{{ object.category.name }}</div>
+    <div class="font-medium text-gray-800">
+        {% if object.status == 'Available' %}
+            Disponible
+        {% elif object.status == 'Disabled'%}
+            No Disponible
+        {% endif %}
+    </div>
 </td>
 <td class="p-2">
-    <div class="font-medium text-gray-800">{{ object.supplier.name }}</div>
+    <div class="font-medium text-gray-800">{{ object.category.name }}</div>
 </td>
 
 {% endblock tr_tbody %}

@@ -64,7 +64,7 @@ class CreateSaleView(LoginRequiredMixin, View):
         
         if consult:
             products = fetch_items_for_user(user=user, model=Product)
-            products = products.filter(Q(code__icontains=consult) | Q(name__icontains=consult))
+            products = products.filter(Q(status='Available') & (Q(code__icontains=consult) | Q(name__icontains=consult)))
         
         return products
     
@@ -150,7 +150,7 @@ class CreateSaleView(LoginRequiredMixin, View):
 
                 existing_sale_product = Sale.objects.filter(
                     product_id=sales_product['id'],
-                    date_joined__date=timezone.now(),
+                    created_at__date=timezone.now(),
                     price_sale=sales_product['price'],
                     user=request.user
                 ).first()

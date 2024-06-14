@@ -40,6 +40,10 @@
                     class="block py-2 pl-3 pr-4 lg:p-0  {% if request.path == '/products/' %}  text-white  lg:text-purple-700 bg-purple-700 rounded lg:bg-transparent {% else %} text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 {% endif %} ">Products</a>
                 </li>
                 <li>
+                    <a href="{% url 'stock_reception:list_stock_receptions' %}"
+                    class="block py-2 pl-3 pr-4 lg:p-0  {% if request.path == '/reception/' %}  text-white  lg:text-purple-700 bg-purple-700 rounded lg:bg-transparent {% else %} text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 {% endif %} ">Stock</a>
+                </li>
+                <li>
                     <a href="{% url 'sales:sale_list' %}"
                     class="block py-2 pl-3 pr-4 lg:p-0  {% if request.path == '/sales/' %}  text-white  lg:text-purple-700 bg-purple-700 rounded lg:bg-transparent {% else %} text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 {% endif %} ">Ventas</a>
                 </li>

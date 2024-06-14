@@ -50,11 +50,7 @@ class CreateProductView(LoginRequiredMixin, View):
     def get_form(self, request, form):
         user = request.user
         categories = fetch_items_for_user(user=user, model=Category)
-        suppliers = fetch_items_for_user(user=user, model=Supplier) 
-
         form.fields['category'].queryset = categories
-        form.fields['supplier'].queryset = suppliers
-        
         return form
 
     def get_template(self, request):
@@ -102,13 +98,11 @@ class UpdateProductAdminView(LoginRequiredMixin, View):
     def get(self, request, pk, *args, **kwargs):
         if not request.user.rol == 'Admin':
             return render(request, self.template_403, status=403)
+        
         template = self.get_template(request)
         product = fetch_items_for_user(user=request.user, model=Product, pk=pk)
         form = ProductForm(instance=product)
-        
         form.fields['category'].queryset = fetch_items_for_user(user=request.user, model=Category)
-        form.fields['supplier'].queryset = fetch_items_for_user(user=request.user, model=Supplier)
-        
         return render(request, template, {'form': form})
 
     def post(self, request, pk, *args, **kwargs):

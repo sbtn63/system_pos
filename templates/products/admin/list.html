@@ -16,8 +16,8 @@
 <th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Nombre Producto</th>
 <th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Precio Unidad</th>
 <th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Cantidad</th>
+<th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Estado</th>
 <th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Categoria</th>
-<th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Provedor</th>
 <th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Creador</th>
 <th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light"></th>
 
@@ -29,8 +29,14 @@
 <td class="py-2 px-4 border-b border-grey-light">{{ object.name }} </td>
 <td class="py-2 px-4 border-b border-grey-light">{{ object.price }}</td>
 <td class="py-2 px-4 border-b border-grey-light">{{ object.stock }}</td>
+<td class="py-2 px-4 border-b border-grey-light">
+    {% if object.status == 'Available' %}
+        Disponible
+    {% elif object.status == 'Disabled' %}
+        No Disponible
+    {% endif %}
+</td>
 <td class="py-2 px-4 border-b border-grey-light">{{ object.category.name }}</td>
-<td class="py-2 px-4 border-b border-grey-light">{{ object.supplier.name }}</td>
 <td class="py-2 px-4 border-b border-grey-light">{% if object.user.first_name or object.user.last_name%} {{ object.user.fullname }} {% else %} {{ object.user.email }} {% endif %}</td>
 <td class="py-2 px-4 border-b border-grey-light">
     <div class="flex gap-2">

@@ -5,21 +5,22 @@ from categories.models import Category
 from suppliers.models import Supplier
 # Create your models here.
 
-class Product(models.Model):
+class Product(models.Model):    
     code = models.CharField(max_length=255)
     name = models.CharField(max_length=50)
     stock = models.PositiveIntegerField()
     price = models.PositiveIntegerField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    status = models.CharField(max_length=10, choices=[('Available', 'Disponible'), ('Disabled', 'No Disponible')])
+    user = models.ForeignKey(User, verbose_name="prodcts_user", on_delete=models.CASCADE)
     category = models.ForeignKey(Category, verbose_name="products_category", on_delete=models.CASCADE)
-    supplier = models.ForeignKey(Supplier, verbose_name="products_supplier", on_delete=models.CASCADE)
-    date_joined = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     
     class Meta:
-        ordering = ['-date_joined']
+        ordering = ['-created_at']
     
     def __str__(self):
-        return f"{self.code} - {self.name} - {self.user}"
+        return f"{self.code} - {self.name}"
     
     def total_product(self):
         return self.stock * self.price

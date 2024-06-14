@@ -1,0 +1,62 @@
+{% extends 'components/table_employee.html' %}
+
+{% block table_title %}Lista de Recepciones Stock{% endblock table_title %}
+
+{% block add_url %}
+
+<a href="{% url 'stock_reception:create_stock_reception' %}" class="bg-blue-500 rounded-lg px-1 py-0.5 text-sm text-white hover:bg-blue-600">Agregar</a>
+
+{% endblock add_url %}
+
+{% block tr_thead %}
+
+<th class="p-2">
+    <div class=" font-semibold">Producto</div>
+</th>
+<th class="p-2">
+    <div class=" font-semibold">Provedor</div>
+</th>
+<th class="p-2">
+    <div class=" font-semibold">Cantidad</div>
+</th>
+<th class="p-2">
+    <div class=" font-semibold">Precio Unitario</div>
+</th>
+<th class="p-2">
+    <div class=" font-semibold">Nota</div>
+</th>
+<th class="p-2">
+    <div class=" font-semibold">Recepcion</div>
+</th>
+
+{% endblock tr_thead %}
+
+{% block tr_tbody %}
+
+<td class="p-2">
+    <div class="font-medium text-gray-800">{{ object.product.name }}</div>
+</td>
+<td class="p-2">
+    <div class="font-medium text-gray-800">{{ object.supplier.name }}</div>
+</td>
+<td class="p-2">
+    <div class="font-medium text-gray-800">{{ object.quantity_received }}</div>
+</td>
+<td class="p-2">
+    <div class="font-medium text-gray-800">{{ object.unit_price }}</div>
+</td>
+<td class="p-2">
+    <div class="font-medium text-gray-800">
+        {% if object.note %}
+            {{ object.note }}
+        {% else %}
+            Ninguna
+        {% endif %}</td>
+    </div>
+</td>
+<td class="p-2">
+    <div class="font-medium text-gray-800">{{ object.reception_date }}</div>
+</t
+{% endblock tr_tbody %}
+
+{% block message %}No tienes registros asociados{% endblock message %}

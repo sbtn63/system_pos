@@ -46,6 +46,9 @@
                 <a href="{% url 'products:list_products' %}" class="{% if request.path == '/products/' %} text-cyan-500 {% else %} text-gray-500  {% endif %} block  py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-cyan-500 hover:text-white" >
                     <i class="fas fa-file-alt mr-2"></i>Productos
                 </a>
+                <a href="{% url 'stock_reception:list_stock_receptions' %}" class="{% if request.path == '/reception/' %} text-cyan-500 {% else %} text-gray-500  {% endif %} block  py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-cyan-500 hover:text-white" >
+                    <i class="fas fa-exchange-alt mr-2"></i>Stock
+                </a>
                 <a href="{% url 'users:list_users' %}" class="{% if request.path == '/users/list_users/' %} text-cyan-500 {% else %} text-gray-500  {% endif %} block  py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-cyan-500 hover:text-white" >
                     <i class="fas fa-users mr-2"></i>Empleados
                 </a>

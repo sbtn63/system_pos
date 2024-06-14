@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'sales',
     'categories',
     'suppliers',
+    'stock_reception',
     
     'tailwind',
     'theme',

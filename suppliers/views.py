@@ -13,7 +13,7 @@ from .forms import SupplierForm
 class ListSupplierView(LoginRequiredMixin, View):
     template_admin = 'suppliers/admin/list.html'
     template_employee = 'suppliers/employees/list.html'
-    template_404 = 'components/403.html'
+    template_403 = 'components/403.html'
     
     def get_template(self, request):
         if request.user.rol == 'Admin':
@@ -44,7 +44,7 @@ class ListSupplierView(LoginRequiredMixin, View):
 class CreateSupplierView(LoginRequiredMixin, View):
     template_admin = 'suppliers/admin/create.html'
     template_employee = 'suppliers/employees/create.html'
-    template_404 = 'components/403.html'
+    template_403 = 'components/403.html'
     
     def get_template(self, request):
         if request.user.rol == 'Admin':

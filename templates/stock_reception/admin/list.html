@@ -1,0 +1,47 @@
+{% extends 'components/table_admin.html' %}
+
+{% block title_table %}Lista de Recepciones Stock{% endblock title_table %}
+
+{% block url_add %}
+
+<a href="{% url 'stock_reception:create_stock_reception' %}" class="bg-cyan-500 my-auto text-sm hover:bg-cyan-600 text-white py-1 px-4 rounded-lg">
+    Agregar
+</a>
+
+{% endblock url_add %}
+
+{% block tr_thead %}
+
+<th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Producto</th>
+<th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Provedor</th>
+<th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Cantidad</th>
+<th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Precio Unitario</th>
+<th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Nota</th>
+<th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Creador</th>
+<th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">Recepcion</th>
+<th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light"></th>  
+
+{% endblock tr_thead %}
+
+{% block tr_tbody %}
+
+<td class="py-2 px-4 border-b border-grey-light">{{ object.product.name }} </td>
+<td class="py-2 px-4 border-b border-grey-light">{{ object.supplier.name }} </td>
+<td class="py-2 px-4 border-b border-grey-light">{{ object.quantity_received }}</td>
+<td class="py-2 px-4 border-b border-grey-light">{{ object.unit_price }}</td>
+<td class="py-2 px-4 border-b border-grey-light">
+    {% if object.note %}
+        {{ object.note }}
+    {% else %}
+        Ninguna
+    {% endif %}</td>
+<td class="py-2 px-4 border-b border-grey-light">{% if object.user.first_name or object.user.last_name%} {{ object.user.fullname }} {% else %} {{ object.user.email }} {% endif %}</td>
+<td class="py-2 px-4 border-b border-grey-light">{{ object.reception_date }}</td>
+<td class="py-2 px-4 border-b border-grey-light">
+    <div class="flex gap-2">
+        {% include 'components/modal.html' with delete_url='stock_reception:delete_stock_reception' %}
+    <div>
+</td>
+{% endblock tr_tbody %}
+
+{% block message %}No tienes provedores asociados aun{% endblock message %}
