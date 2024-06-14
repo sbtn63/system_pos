@@ -1,30 +1,21 @@
-{% extends 'components/admin/dashboard.html' %}
+{% extends 'components/admin/form.html' %}
 {% load widget_tweaks %}
 
-{% block content_dashboard %}
+{% block title %}Actualizar Categoria{% endblock title %}
 
+{% block form_body %}
 
-<div class="bg-white p-8 rounded-lg">
+<div class="relative z-0 w-full mb-5 group">
+    {{ form.code|add_class:"block py-2.5 px-0 w-full text-sm text-gray-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 pee"|append_attr:"placeholder:Codigo"|append_attr:"disabled:true"}}
+</div>
+<div class="relative z-0 w-full mb-5 group">
+    {{ form.name|add_class:"block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 pee"|append_attr:"placeholder:Nombre Categoria"}}
+</div>
 
-    <h2 class="text-center my-6 text-[2.5rem] font-bold leading-[4rem] tracking-tight text-black"> Agregar Categoria</h2>
+<div class="relative z-0 w-full mb-5 group">
+    {{ form.location|add_class:"block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 pee"|append_attr:"placeholder:Ubicacion Categoria"}}
+</div>
 
-    <form class="max-w-md mx-auto" method="post">
-        {% csrf_token %}
-        <div class="relative z-0 w-full mb-5 group">
-            {{ form.code|add_class:"block py-2.5 px-0 w-full text-sm text-gray-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 pee"|append_attr:"placeholder:Codigo"|append_attr:"disabled:true"}}
-        </div>
-        <div class="relative z-0 w-full mb-5 group">
-            {{ form.name|add_class:"block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 pee"|append_attr:"placeholder:Nombre Categoria"}}
-        </div>
+{% endblock form_body %}
 
-        <div class="relative z-0 w-full mb-5 group">
-            {{ form.location|add_class:"block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 pee"|append_attr:"placeholder:Ubicacion Categoria"}}
-        </div>
-    
-        <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Crear Categoria</button>
-  </form>
-
-<div>
-
-
-{% endblock content_dashboard %}
+{% block button_text %}Actualizar Categoria{% endblock button_text %}
