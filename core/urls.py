@@ -15,7 +15,7 @@ urlpatterns = [
     path('sales/', include(('sales.urls', 'sales'))),
     path('categories/', include(('categories.urls', 'categories'))),
     path('suppliers/', include(('suppliers.urls', 'suppliers'))),
-    path('reception/', include(('stock_reception.urls', 'stock_reception'))),
+    path('receptions/', include(('stock_reception.urls', 'receptions'))),
 ]
 
 if settings.DEBUG:
