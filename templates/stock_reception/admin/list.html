@@ -1,4 +1,4 @@
-{% extends 'components/table_admin.html' %}
+{% extends 'components/admin/table.html' %}
 
 {% block title_table %}Lista de Recepciones Stock{% endblock title_table %}
 
@@ -39,7 +39,7 @@
 <td class="py-2 px-4 border-b border-grey-light">{{ object.reception_date }}</td>
 <td class="py-2 px-4 border-b border-grey-light">
     <div class="flex gap-2">
-        {% include 'components/modal.html' with delete_url='stock_reception:delete_stock_reception' %}
+        {% include 'components/admin/modal.html' with delete_url='stock_reception:delete_stock_reception' %}
     <div>
 </td>
 {% endblock tr_tbody %}

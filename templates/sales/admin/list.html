@@ -1,4 +1,4 @@
-{% extends 'components/table_admin.html' %}
+{% extends 'components/admin/table.html' %}
 
 {% block title_table %}Lista de Ventas{% endblock title_table %}
 
@@ -36,7 +36,7 @@
 <td class="py-2 px-4 border-b border-grey-light">{{ object.created_at }}</td>
 <td class="py-2 px-4 border-b border-grey-light">{{ object.total_sale }}</td>
 <td class="py-2 px-4 border-b border-grey-light">
-    {% include 'components/modal.html' with delete_url='sales:sale_delete' %}
+    {% include 'components/admin/modal.html' with delete_url='sales:sale_delete' %}
 </td>
 
 {% endblock tr_tbody %}

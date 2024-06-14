@@ -1,4 +1,4 @@
-{% extends 'components/table_admin.html' %}
+{% extends 'components/admin/table.html' %}
 
 {% block title_table %}Lista de Categorias{% endblock title_table %}
 
@@ -30,10 +30,10 @@
 <td class="py-2 px-4 border-b border-grey-light">{% if object.user.first_name or object.user.last_name%} {{ object.user.fullname }} {% else %} {{ object.user.email }} {% endif %}</td>
 <td class="py-2 px-4 border-b border-grey-light">
     <div class="flex gap-2">
-        {% include 'components/modal.html' with delete_url='categories:delete_category' %}
+        {% include 'components/admin/modal.html' with delete_url='categories:delete_category' %}
 
         <a href="{% url 'categories:update_category' object.id %}">
-            {% include 'components/icon_update.html' %}
+            {% include 'components/admin/icon_update.html' %}
         </a>
     <div>
 </td>
