@@ -12,7 +12,7 @@ from products.models import Product
 from suppliers.models import Supplier
 # Create your views here.
 
-class ListStockReceptionView(View):
+class ListStockReceptionView(LoginRequiredMixin, View):
     template_admin = 'stock_reception/admin/list.html'
     template_employee = 'stock_reception/employees/list.html'
     template_403 = 'componets/403.html'
@@ -46,7 +46,7 @@ class ListStockReceptionView(View):
         else:
             return render(request, self.template_403, status=403)
 
-class CreateStockReceptionView(View):
+class CreateStockReceptionView(LoginRequiredMixin, View):
     template_admin = 'stock_reception/admin/create.html'
     template_employee = 'stock_reception/employees/create.html'
     template_403 = 'componets/403.html'
