@@ -42,7 +42,7 @@ class UserAdminRegisterView(View):
             messages.warning(request, 'Password not match')
             return render(request, self.template_register, {'form': UserAdminRegisterForm})
 
-class UserEmployeeRegisterView(View):
+class UserEmployeeRegisterView(LoginRequiredMixin, View):
     template_create_user = 'users/admin/create.html'
      
     def get(self, request, *args, **kwargs):
