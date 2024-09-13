@@ -7,17 +7,55 @@
 
 <div class="grid md:grid-cols-2 md:gap-6">
     <div class="relative z-0 w-full mb-5 group">
-        {{ form.first_name|add_class:"block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"|append_attr:"placeholder:Nombres"}}
+        {% for error in form.first_name.errors %}
+            <div class="text-xs text-red-700 font-medium block">
+                <span>{{ error }}</span><br>
+            </div>
+        {% endfor %}
+        {{ form.first_name|add_class:"block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"|append_attr:"placeholder:Nombres"}}
     </div>
     <div class="relative z-0 w-full mb-5 group">
-        {{ form.last_name|add_class:"block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"|append_attr:"placeholder:Apellidos"}}
+        {% for error in form.last_name.errors %}
+            <div class="text-xs text-red-700 font-medium block">
+                <span>{{ error }}</span><br>
+            </div>
+        {% endfor %}
+        {{ form.last_name|add_class:"block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"|append_attr:"placeholder:Apellidos"}}
     </div>
 </div>
 <div class="relative z-0 w-full mb-5 group">
-    {{ form.current_password|add_class:"block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 pee"|append_attr:"placeholder:Contraseña Actual"}}
+    {% for error in form.email.errors %}
+        <div class="text-xs text-red-700 font-medium block">
+            <span>{{ error }}</span><br>
+        </div>
+    {% endfor %}
+    {{ form.email|add_class:"block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 pee"|append_attr:"placeholder:Email"}}
 </div>
 <div class="relative z-0 w-full mb-5 group">
-    {{ form.password_new|add_class:"block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 pee"|append_attr:"placeholder:Nueva Contraseña"}}
+    {% for error in form.current_password.errors %}
+        <div class="text-xs text-red-700 font-medium block">
+            <span>{{ error }}</span><br>
+        </div>
+    {% endfor %}
+    {{ form.current_password|add_class:"block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 pee"|append_attr:"placeholder:Contraseña Actual"}}
+</div>
+<div class="grid md:grid-cols-2 md:gap-6">
+    <div class="relative z-0 w-full mb-5 group">
+        {% for error in form.password_new.errors %}
+            <div class="text-xs text-red-700 font-medium block">
+                <span>{{ error }}</span><br>
+            </div>
+        {% endfor %}
+        {{ form.password_new|add_class:"block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 pee"|append_attr:"placeholder:Nueva Contraseña"}}
+    </div>
+    <div class="relative z-0 w-full mb-5 group">
+        {% for error in form.confirm_password_new.errors %}
+            <div class="text-xs text-red-700 font-medium block">
+                <span>{{ error }}</span><br>
+            </div>
+        {% endfor %}
+        {{ form.confirm_password_new|add_class:"block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 pee"|append_attr:"placeholder:Confirmar Nueva Contraseña"}}
+    </div>
 </div>
 
 {% endblock form_body %}

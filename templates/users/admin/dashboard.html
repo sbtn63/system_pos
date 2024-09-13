@@ -12,6 +12,11 @@
 <form class="max-w-md mx-auto mt-6" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="relative z-0 w-full mb-5 group">
+      {% for error in form.name_company.errors %}
+        <div class="text-xs text-red-700 font-medium block">
+            <span>{{ error }}</span><br>
+        </div>
+      {% endfor %}
       {{ form.name_company|add_class:"block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 pee"|append_attr:"placeholder:Nombre Compañia"}}
   </div>
     <div class="flex items-center space-x-6">

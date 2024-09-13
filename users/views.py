@@ -135,7 +135,7 @@ class EditUserView(LoginRequiredMixin, View):
                 return redirect('home')
             else:
                 messages.error(request, 'La contraseña actual no es correcta!')
-                return redirect('users:change')
+                return redirect('users:edit')
         return render(request, template, context={'form': form})
                             
 class DeleteUserEmployeView(LoginRequiredMixin, View):
