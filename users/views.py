@@ -23,24 +23,12 @@ class UserAdminRegisterView(View):
     
     def post(self, request, *args, **kwargs):
         form = UserAdminRegisterForm(request.POST)
-        if request.POST['password1'] == request.POST['password2']:
-            try:
-                new_admin_user = User.objects.create_user(
-                    email=request.POST['email'],
-                    password=request.POST['password1']
-                )
-                    
-                new_admin_user.save()
-                login(request, new_admin_user)
-                    
-                messages.success(request, 'User Created')
-                return redirect('home')
-            except IntegrityError:
-                messages.warning(request, 'Email exists')
-                return render(request, self.template_register, {'form': UserAdminRegisterForm})
-        else:
-            messages.warning(request, 'Password not match')
-            return render(request, self.template_register, {'form': UserAdminRegisterForm})
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            messages.success(request, 'Usuario Creado!!')
+            return redirect('home')
+        return render(request, self.template_register, {'form': form})
 
 class UserEmployeeRegisterView(LoginRequiredMixin, View):
     template_create_user = 'users/admin/create.html'
@@ -53,26 +41,14 @@ class UserEmployeeRegisterView(LoginRequiredMixin, View):
     
     def post(self, request, *args, **kwargs):
         form = UserEmployeeRegisterForm(request.POST)
-        if request.POST['password1'] == request.POST['password2']:
-            try:
-                new_employee_user = User.objects.create_user(
-                    first_name = request.POST['first_name'],
-                    last_name = request.POST['last_name'],
-                    email=request.POST['email'],
-                    rol= 'Employee',
-                    created_by_user= request.user,
-                    password=request.POST['password1']
-                )
-                    
-                new_employee_user.save()
-                messages.success(request, 'Usuario Creado!')
-                return redirect('users:list')
-            except IntegrityError:
-                messages.warning(request, 'Email exists')
-                return render(request, self.template_create_user, {'form': UserEmployeeRegisterForm})
-        else:
-            messages.warning(request, 'Password not match')
-            return render(request, self.template_create_user, {'form': UserEmployeeRegisterForm})
+        if form.is_valid():
+            new_user = form.save(commit=False)
+            new_user.created_by_user = request.user
+            new_user.rol = 'Employee'
+            new_user.save()
+            messages.success(request, 'Usuario Creado!')
+            return redirect('users:list')
+        return render(request, self.template_create_user, {'form': form})
 
 class ListUsersForAdminView(LoginRequiredMixin, View):
     def get_users(self, request):
@@ -105,15 +81,13 @@ class LoginUserView(View):
         return render(request, self.template_login, {'form': LoginUserForm})
     
     def post(self, request, *args, **kwargs):
-        form = LoginUserForm(request.POST)
-        user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
-            
-        if user is None:
-            messages.warning(request, 'Email or pasword incorrect')
-            return render(request, self.template_login, {'form': LoginUserForm})
-        else:
+        form = LoginUserForm(request, request.POST)
+        if form.is_valid():
+            user = form.get_user()
             login(request, user)
             return redirect('home')
+        messages.warning(request, 'El usuario o la contraseña no son válidos!')
+        return render(request, self.template_login, context={'form': form})
 
 class LogoutUserView(View):
     def get(self, request, *args, **kwargs):
@@ -137,32 +111,33 @@ class EditUserView(LoginRequiredMixin, View):
         user = User.objects.get(email=request.user.email)
         template = self.get_template(request)
         
-        return render(request, template, {'form': UserEditForm(instance=user)})
+        return render(request, template, {'form': UserEditForm(instance=user, current_user=request.user)})
     
     def post(self, request, *args, **kwargs):
-        user_form = User.objects.get(email=request.user.email)
-        current_password = request.POST['current_password']
-        new_password = request.POST['password_new']
-        template = self.get_template(request)
-                
-        user = authenticate(username=request.user.email, password=current_password)
-                
-        if user is not None:
-            user.first_name = request.POST['first_name']
-            user.last_name = request.POST['last_name']
-                
-            if new_password:
-                user.set_password(new_password)
-                update_session_auth_hash(request, user)
-                    
-            user.save()
-            messages.warning(request, 'Datos Actualizados')
-            return redirect('home')
-        else:
-            messages.warning(request, 'Las contrasenia no es correcta')
-            return render(request, template, {'form': UserEditForm(instance=user_form)})
-                    
-                
+        template = self.get_template(request)        
+        current_email = request.user.email
+        form = UserEditForm(request.POST, request.POST, instance=request.user, current_user=request.user)
+
+        if form.is_valid():
+            current_password = form.cleaned_data.get('current_password')
+            new_username = form.cleaned_data.get('username')
+            new_email = form.cleaned_data.get('email')
+            new_password = form.cleaned_data.get('password_new')
+            user = authenticate(username=current_email, password=current_password)
+            if user is not None:
+                if new_email and new_email != request.user.email:
+                    request.user.email = new_email
+                if new_password:
+                    request.user.set_password(new_password)
+                    update_session_auth_hash(request, request.user)
+                request.user.save()
+                messages.warning(request, 'Datos Actualizados')
+                return redirect('home')
+            else:
+                messages.error(request, 'La contraseña actual no es correcta!')
+                return redirect('users:change')
+        return render(request, template, context={'form': form})
+                            
 class DeleteUserEmployeView(LoginRequiredMixin, View):
     def save_objects_user_admin(self, request, elemets):
         for elem in elemets:
