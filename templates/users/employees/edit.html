@@ -3,7 +3,7 @@
 
 {% block title %}
 
-<h2 class="text-3xl mt-5 mb-10 font-bold tracking-tight text-gray-900 sm:text-4xl"> Editar Información</h2>
+<h2 class="text-3xl mt-5 mb-5 font-bold tracking-tight text-gray-900 sm:text-4xl"> Editar Información</h2>
 
 {% endblock title %}
 
@@ -11,28 +11,70 @@
 
 <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
   <div>
+    {% for error in form.first_name.errors %}
+        <div class="text-xs text-red-700 font-medium block">
+            <span>{{ error }}</span><br>
+        </div>
+    {% endfor %}
     <label for="first_name" class="block text-sm font-semibold leading-6 text-black">Nombres</label>
     <div class="mt-2.5">
       {{ form.first_name|add_class:"block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm shadow-blue-500 ring-1 ring-inset ring-blue-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"}}
     </div>
   </div>
   <div>
+    {% for error in form.last_name.errors %}
+        <div class="text-xs text-red-700 font-medium block">
+            <span>{{ error }}</span><br>
+        </div>
+    {% endfor %}
     <label for="last_name" class="block text-sm font-semibold leading-6 text-black">Apellidos</label>
     <div class="mt-2.5">
       {{ form.last_name|add_class:"block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset shadow-blue-500 ring-blue-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6" }}
     </div>
   </div>
   <div class="sm:col-span-2">
+    {% for error in form.email.errors %}
+        <div class="text-xs text-red-700 font-medium block">
+            <span>{{ error }}</span><br>
+        </div>
+    {% endfor %}
+    <label for="last_name" class="block text-sm font-semibold leading-6 text-black">Email</label>
+    <div class="mt-2.5">
+      {{ form.email|add_class:"block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset shadow-blue-500 ring-blue-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6" }}
+    </div>
+  </div>
+  <div class="sm:col-span-2">
+      {% for error in form.current_password.errors %}
+        <div class="text-xs text-red-700 font-medium block">
+            <span>{{ error }}</span><br>
+        </div>
+      {% endfor %}
       <label for="current_password" class="block text-sm font-semibold leading-6 text-black">Contraseña Actual</label>
       <div class="mt-2.5">
         {{ form.current_password|add_class:"block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset shadow-blue-500 ring-blue-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"}}
       </div>
   </div>
-  <div class="sm:col-span-2">
-      <label for="password_new" class="block text-sm font-semibold leading-6 text-black">Nueva Contraseña</label>
-      <div class="mt-2.5">
-        {{ form.password_new|add_class:"block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset shadow-blue-500 ring-blue-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"}}
+  <div>
+    {% for error in form.password_new.errors %}
+      <div class="text-xs text-red-700 font-medium block">
+          <span>{{ error }}</span><br>
       </div>
+    {% endfor %}
+    <label for="password_new" class="block text-sm font-semibold leading-6 text-black">Nueva Contraseña</label>
+    <div class="mt-2.5">
+      {{ form.password_new|add_class:"block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset shadow-blue-500 ring-blue-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"}}
+    </div>
+  </div>
+  <div>
+    {% for error in form.confirm_password_new.errors %}
+      <div class="text-xs text-red-700 font-medium block">
+          <span>{{ error }}</span><br>
+      </div>
+    {% endfor %}
+    <label for="password_new" class="block text-sm font-semibold leading-6 text-black">Confirmar Nueva Contraseña</label>
+    <div class="mt-2.5">
+      {{ form.confirm_password_new|add_class:"block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset shadow-blue-500 ring-blue-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"}}
+    </div>
   </div>
 </div>
 
